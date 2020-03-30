@@ -35,6 +35,7 @@ func _physics_process(_delta):
 	var is_jump_interrupted = Input.is_action_just_released("jump") and _velocity.y < 0.0
 	_velocity = calculate_move_velocity(_velocity, direction, speed, is_jump_interrupted)
 
+	
 	var snap_vector = Vector2.DOWN * FLOOR_DETECT_DISTANCE if direction.y == 0.0 else Vector2.ZERO
 	var is_on_platform = platform_detector.is_colliding()
 	_velocity = move_and_slide_with_snap(
@@ -53,7 +54,8 @@ func _physics_process(_delta):
 	var is_shooting = false
 	if Input.is_action_just_pressed("shoot"):
 		is_shooting = gun.shoot(sprite.scale.x)
-
+	if Input.is_action_just_pressed("ui_hover"):
+		_velocity.y =- 98
 	var animation = get_new_animation(is_shooting)
 	if animation != animation_player.current_animation and shoot_timer.is_stopped():
 		if is_shooting:
@@ -91,6 +93,8 @@ func get_new_animation(is_shooting = false):
 		animation_new = "run" if abs(_velocity.x) > 0.1 else "idle"
 	else:
 		animation_new = "falling" if _velocity.y > 0 else "jumping"
+		#MESSING WITH GRAVITY
+		_velocity.y -= 10;
 	if is_shooting:
 		animation_new += "_weapon"
 	return animation_new
