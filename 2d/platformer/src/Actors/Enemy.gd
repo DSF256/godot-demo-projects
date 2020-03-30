@@ -1,7 +1,6 @@
 class_name Enemy
 extends Actor
 
-
 enum State {
 	WALKING,
 	DEAD

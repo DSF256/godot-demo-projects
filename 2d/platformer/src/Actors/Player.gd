@@ -11,8 +11,15 @@ onready var shoot_timer = $ShootAnimation
 onready var gun = $Sprite/Gun
 
 var coins = 0.0
-const AMT_COINS_TO_LEVEL_UP = 20.0
 var lives = 1.0
+var curLife = 100.0
+onready var contactWithEnemytimer = $enemyContactCooldown
+
+const AMT_COINS_TO_LEVEL_UP = 20.0
+const MAX_LIFE = 100.0
+const DAMAGE_PER_HIT = 25.0 #Amount of life lost per collision with enemys
+
+
 
 
 # Physics process is a built-in loop in Godot.
@@ -65,6 +72,10 @@ func _physics_process(_delta):
 		if is_shooting:
 			shoot_timer.start()
 		animation_player.play(animation)
+		
+	_collideWithEnemyCheck()
+	
+
 
 
 func get_direction():
@@ -88,6 +99,7 @@ func calculate_move_velocity(
 		velocity.y = speed.y * direction.y
 	if is_jump_interrupted:
 		velocity.y = 0.0
+		
 	return velocity
 
 
@@ -112,4 +124,16 @@ func _on_coinCollected():
 		$UI/amtLivesLabel.text = "Lives: " + String(self.lives)
 	
 	$UI/amtCoinsLabel.text = "Coins: " + String(self.coins)
-	
+
+
+#Check to see if the player has collided with any enemies.
+#If so, deal damage to the player
+func _collideWithEnemyCheck():
+	if get_slide_count() > 0:
+			for i in range(get_slide_count()):
+				if self.contactWithEnemytimer.is_stopped() and "Enemy" == get_slide_collision(i).collider.name:
+					self.curLife = self.curLife - self.DAMAGE_PER_HIT
+					$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
+					$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
+					self.contactWithEnemytimer.start()
+						

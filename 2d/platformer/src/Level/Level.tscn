@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/art/tileset/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/Actors/Enemy.tscn" type="PackedScene" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://assets/art/platforms/moving_platform.png" type="Texture" id=6]
 [ext_resource path="res://src/Level/ParallaxBackground.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/audio/music/music.ogg" type="AudioStream" id=8]
+[ext_resource path="res://assets/art/healthBar/healthBarBorder.png" type="Texture" id=9]
+[ext_resource path="res://assets/art/healthBar/fill.png" type="Texture" id=11]
 
 [sub_resource type="Animation" id=1]
 resource_name = "move"
@@ -87,6 +89,34 @@ text = "Lives: 1"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="hpCanvasLayer" type="CanvasLayer" parent="Player/UI" index="6"]
+
+[node name="hpContainer" type="HBoxContainer" parent="Player/UI/hpCanvasLayer"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hpLabel" type="Label" parent="Player/UI/hpCanvasLayer/hpContainer"]
+margin_top = 13.0
+margin_right = 75.0
+margin_bottom = 27.0
+text = "HP 100/100"
+
+[node name="hpBar" type="TextureProgress" parent="Player/UI/hpCanvasLayer/hpContainer"]
+margin_left = 79.0
+margin_right = 277.0
+margin_bottom = 40.0
+value = 100.0
+texture_under = ExtResource( 9 )
+texture_progress = ExtResource( 11 )
+
+[node name="enemyContactCooldown" type="Timer" parent="Player"]
+process_mode = 0
+wait_time = 0.5
+one_shot = true
 
 [node name="Coins" type="Node" parent="."]
 
@@ -296,7 +326,6 @@ position = Vector2( 828.515, 77.262 )
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
-autoplay = true
 [connection signal="coinCollected" from="Coins/CoinsArc/Coin" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsArc/Coin2" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsArc/Coin3" to="Player" method="_on_coinCollected"]
@@ -337,5 +366,6 @@ autoplay = true
 [connection signal="coinCollected" from="Coins/CoinsHorizontal5/Coin" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsHorizontal5/Coin2" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsHorizontal5/Coin3" to="Player" method="_on_coinCollected"]
+[connection signal="input_event" from="Enemies/Enemy" to="Player" method="_on_Enemy_input_event"]
 
 [editable path="Player"]
