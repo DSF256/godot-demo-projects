@@ -10,6 +10,10 @@ onready var animation_player = $AnimationPlayer
 onready var shoot_timer = $ShootAnimation
 onready var gun = $Sprite/Gun
 
+var coins = 0.0
+const AMT_COINS_TO_LEVEL_UP = 20.0
+var lives = 1.0
+
 
 # Physics process is a built-in loop in Godot.
 # If you define _physics_process on a node, Godot will call it every frame.
@@ -98,3 +102,14 @@ func get_new_animation(is_shooting = false):
 	if is_shooting:
 		animation_new += "_weapon"
 	return animation_new
+
+func _on_coinCollected():
+	self.coins = self.coins + 1
+	
+	if(self.coins == self.AMT_COINS_TO_LEVEL_UP):
+		self.lives = self.lives + 1
+		self.coins = self.coins - self.AMT_COINS_TO_LEVEL_UP
+		$UI/amtLivesLabel.text = "Lives: " + String(self.lives)
+	
+	$UI/amtCoinsLabel.text = "Coins: " + String(self.coins)
+	
