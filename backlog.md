@@ -38,3 +38,13 @@ Assigned to Jeremy Hall
 Points: 1
 Task 011: Include a .txt file within the game's files called "README" that explains the controls of the game. (1 pt.)
   * Note: This file will be included in both the 2D folder in the engine, and in this repository for ease of access.
+  
+$$$
+User Story f
+Status: Completed
+Assigned to Saleh Alsadoon
+Points: 1
+Task 012: Reduce The game gravity. (1 pt.)
+Task 013: Change charcter skin of the player (5 pt.)
+Task 014: Add animation to the new skin (3 pt.)  
+Task 015: Add powerup. (3 pt.)  

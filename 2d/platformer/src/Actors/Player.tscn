@@ -1,7 +1,7 @@
 [gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://src/Actors/Player.gd" type="Script" id=1]
-[ext_resource path="res://assets/art/player/robot_demo.png" type="Texture" id=2]
+[ext_resource path="res://assets/art/player/adventurer_tilesheet.png" type="Texture" id=2]
 [ext_resource path="res://assets/audio/sfx/jump.wav" type="AudioStream" id=3]
 [ext_resource path="res://assets/audio/sfx/shoot.wav" type="AudioStream" id=4]
 [ext_resource path="res://assets/art/ui/touch_button_left.png" type="Texture" id=5]
@@ -22,10 +22,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 22 ]
+"times": PoolRealArray( 0, 0.00127525, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 3, 3, 3 ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -42,8 +42,8 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 21 ]
+"update": 0,
+"values": [ 8 ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -61,11 +61,11 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 26 ]
+"values": [ 14 ]
 }
 
 [sub_resource type="Animation" id=4]
-length = 7.0
+length = 0.5
 loop = true
 step = 0.25
 tracks/0/type = "value"
@@ -75,10 +75,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1.25, 1.5, 2, 4.5, 4.75, 5, 5.25 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 16, 17, 18, 16, 19, 20, 19, 16 ]
+"values": [ 16 ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -92,14 +92,14 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.001 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ 25 ]
+"values": [ 11, 11 ]
 }
 
 [sub_resource type="Animation" id=6]
-length = 0.5
+length = 2.5
 loop = true
 step = 0.25
 tracks/0/type = "value"
@@ -109,14 +109,14 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.25, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ 23, 24, 23 ]
+"values": [ 16, 20 ]
 }
 
 [sub_resource type="Animation" id=7]
-length = 0.5
+length = 2.0
 loop = true
 step = 0.25
 tracks/0/type = "value"
@@ -126,10 +126,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ 26 ]
+"values": [ 17, 18 ]
 }
 
 [sub_resource type="Animation" id=8]
@@ -202,10 +202,11 @@ collision_mask = 8
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -14 )
+scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 2 )
-vframes = 2
-hframes = 16
-frame = 16
+vframes = 3
+hframes = 9
+frame = 14
 
 [node name="Gun" type="Position2D" parent="Sprite"]
 position = Vector2( 14, 1 )
