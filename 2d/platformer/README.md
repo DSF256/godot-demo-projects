@@ -22,6 +22,9 @@ We invite you to open the demo's GDScript files in the editor as they contain a 
 - Pause and pause menu.
 - Pixel art visuals.
 - Sound effects and music.
+- Reduce The game gravity.
+- Add animation to the new skin.
+- Add powerup.
 
 ## Screenshots
 
