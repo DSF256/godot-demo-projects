@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/05r3RiZbfkYZnO2L1-_mmCPT4bU0Ek-k6p8yw1J19yo.jpg-320289cd077dbe2b9170485670a5bcf3.stex"
+path="res://.import/All powerups that can be added.jpg-e775e0070370e4a9b62c2cf5903fdf61.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/Objects/05r3RiZbfkYZnO2L1-_mmCPT4bU0Ek-k6p8yw1J19yo.jpg"
-dest_files=[ "res://.import/05r3RiZbfkYZnO2L1-_mmCPT4bU0Ek-k6p8yw1J19yo.jpg-320289cd077dbe2b9170485670a5bcf3.stex" ]
+source_file="res://src/Objects/All powerups that can be added.jpg"
+dest_files=[ "res://.import/All powerups that can be added.jpg-e775e0070370e4a9b62c2cf5903fdf61.stex" ]
 
 [params]
 
