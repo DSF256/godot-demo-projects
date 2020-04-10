@@ -64,3 +64,9 @@ Status: Completed
 Assigned to Saleh Alsadoon
 Points: 3  
 Task 015: Add powerup. (3 pt.)  
+
+User Story G
+Status: Completed
+Assigned to Saleh Alsadoon
+Points: 3  
+Task 015: Make gun shooting speed faster, to make it feel real. (1 pt.)  
