@@ -52,11 +52,9 @@ audio_listener_enable_2d = true
 
 [node name="Player1" parent="Black/SplitContainer/ViewportContainer1/Viewport/Level" instance=ExtResource( 4 )]
 position = Vector2( 90, 546 )
-action_suffix = "_p1"
 
 [node name="Player2" parent="Black/SplitContainer/ViewportContainer1/Viewport/Level" instance=ExtResource( 4 )]
 position = Vector2( 120, 546 )
-action_suffix = "_p2"
 
 [node name="ViewportContainer2" type="ViewportContainer" parent="Black/SplitContainer"]
 margin_left = 406.0
