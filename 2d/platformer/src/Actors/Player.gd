@@ -19,6 +19,8 @@ const AMT_COINS_TO_LEVEL_UP = 20.0
 const MAX_LIFE = 100.0
 const DAMAGE_PER_HIT = 25.0 #Amount of life lost per collision with enemys
 
+var enemyList = ["Enemy", "Enemy2" ,"Enemy3", "Enemy4"]
+
 
 
 
@@ -131,7 +133,7 @@ func _on_coinCollected():
 func _collideWithEnemyCheck():
 	if get_slide_count() > 0:
 			for i in range(get_slide_count()):
-				if self.contactWithEnemytimer.is_stopped() and "Enemy" == get_slide_collision(i).collider.name:
+				if self.contactWithEnemytimer.is_stopped() and enemyList.has(get_slide_collision(i).collider.name):
 					self.curLife = self.curLife - self.DAMAGE_PER_HIT
 					$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
 					$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
