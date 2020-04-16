@@ -13,7 +13,7 @@ User Story B
 Status: Assigned
 Assigned to Jeremy Hall
 Points: 8
-Task 004: Edit the current level background provided with the game such that at least three new color schemes are produced for the new levels. (3 pts.)
+Task 004: Edit the current level background provided with the game such that at least one new color scheme is produced for the new levels. (3 pts.)
 Task 005: Design and implement three different levels to be implemented after the first (default level). (8 pts.)
 Task 006: Implement level transitions such that the player plays the levels sequentially (L1 -> L2 -> L3) (1 pt.)
 
