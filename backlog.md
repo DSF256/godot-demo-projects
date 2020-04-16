@@ -59,3 +59,17 @@ Task 017: Add collision detection with the orb sprite, similar to with coins and
 Task 018: Modify the game's code such that the game keeps track of how many orbs the player has obtained. (3 pts.)
 Task 019: Warp to player to the next level when the orb counter in Task 018 reaches 4 (will require Tasks 004-006 to be completed). (5 pts.)
 NOTE: These tasks advance the goal of implementing and completing Feature #7 of features.md: Implement an end state to the game.
+
+$$$
+User Story H
+Status: Complete
+Assigned to Jeremy Hall
+Points: 1
+Task 020: Send friend requests to Buck, Nino, and Rob Noonan on GitHub so that they may follow the project's progress. (1 pt.)
+
+User Story I
+Status: In progress
+Assigned to Mathew Bagwell
+Points: 2
+Task 021: Program the sky and cloud images in such a way that they become progressively lighter and darker after a specific interval (2 pts.)
+Task 022: Implement a timer on the sky and clouds to properly time the transitions between the lighter and darker images (1 pt.)
