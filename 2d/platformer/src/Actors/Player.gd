@@ -22,8 +22,6 @@ const DAMAGE_PER_HIT = 25.0 #Amount of life lost per collision with enemys
 var enemyList = ["Enemy", "Enemy2" ,"Enemy3", "Enemy4"]
 
 
-
-
 # Physics process is a built-in loop in Godot.
 # If you define _physics_process on a node, Godot will call it every frame.
 

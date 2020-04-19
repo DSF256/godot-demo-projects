@@ -90,6 +90,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+
 [node name="hpCanvasLayer" type="CanvasLayer" parent="Player/UI" index="6"]
 
 [node name="hpContainer" type="HBoxContainer" parent="Player/UI/hpCanvasLayer"]
@@ -326,6 +327,9 @@ position = Vector2( 828.515, 77.262 )
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
+
+autoplay = true
+
 [connection signal="coinCollected" from="Coins/CoinsArc/Coin" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsArc/Coin2" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsArc/Coin3" to="Player" method="_on_coinCollected"]
@@ -366,6 +370,8 @@ stream = ExtResource( 8 )
 [connection signal="coinCollected" from="Coins/CoinsHorizontal5/Coin" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsHorizontal5/Coin2" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsHorizontal5/Coin3" to="Player" method="_on_coinCollected"]
+
 [connection signal="input_event" from="Enemies/Enemy" to="Player" method="_on_Enemy_input_event"]
+
 
 [editable path="Player"]
