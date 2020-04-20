@@ -65,9 +65,11 @@ tracks/2/keys = {
 }
 
 [node name="Bullet" type="RigidBody2D"]
+modulate = Color( 1, 0, 0, 0.509804 )
 material = SubResource( 1 )
 collision_layer = 0
 collision_mask = 26
+gravity_scale = 0.0
 continuous_cd = 2
 contacts_reported = 1
 contact_monitor = true

@@ -18,6 +18,13 @@ onready var animation_player = $AnimationPlayer
 # We can initialize variables here.
 func _ready():
 	_velocity.x = speed.x
+	var INTEGER = 1
+	while(INTEGER !=0):
+		var NUMBER = randi()%5+1
+		speed.x = randi()%5*50
+		yield(get_tree().create_timer(NUMBER), "timeout")
+		_velocity.y = (-250)
+		
 
 # Physics process is a built-in loop in Godot.
 # If you define _physics_process on a node, Godot will call it every frame.
