@@ -21,6 +21,8 @@ const DAMAGE_PER_HIT = 25.0 #Amount of life lost per collision with enemys
 
 var enemyList = ["Enemy", "Enemy2" ,"Enemy3", "Enemy4"]
 
+onready var deadTimer = $UI/DiedMenuControl/DiedMenuTimer
+onready var deadMenu = $UI/DiedMenuControl
 
 # Physics process is a built-in loop in Godot.
 # If you define _physics_process on a node, Godot will call it every frame.
@@ -150,4 +152,22 @@ func _collideWithEnemyCheck():
 					$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
 					$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
 					self.contactWithEnemytimer.start()
-						
+					_diedCheck()
+					
+func _diedCheck():
+	if(self.curLife <=0): #Dead
+		self.deadTimer.start()
+		deadMenu.open()
+		yield(self.deadTimer, "timeout")
+		deadMenu.close()
+		_reset()
+	
+		
+func _reset():
+	self.curLife = self.MAX_LIFE
+	$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
+	$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
+	self.coins = 0
+	$UI/amtCoinsLabel.text = "Coins: " + String(self.coins)
+	self.lives = self.lives -1
+	$UI/amtLivesLabel.text = "Lives: " + String(self.lives)
