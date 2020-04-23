@@ -13,6 +13,8 @@ signal coinCollected
 # collisions and frees it from memory, saving us from writing more complex code.
 # Click the AnimationPlayer node to see the animation timeline.
 func _on_body_entered(_body):
-	animation_player.play("picked")
+	if(self.visible):
+		animation_player.play("picked")
+		
+	self.visible = false;
 	emit_signal("coinCollected")
-	
