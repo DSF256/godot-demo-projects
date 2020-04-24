@@ -79,6 +79,6 @@ User Story J
 Status: In progress
 Assigned to Everyone
 Points: 5
-Task 023: Leave at least three sentences' worth of feedback on at least 10 different pull requests initiated by team members.
-Task 024: Initiate any combination of at least 20 pull requests and meaningful commits on the godot-demo-projects repo.
+Task 024: Leave at least three sentences' worth of feedback on at least 10 different pull requests initiated by team members.
+Task 025: Initiate any combination of at least 20 pull requests and meaningful commits on the godot-demo-projects repo.
 NOTE: Meaningful in this case means the contribution took at least 3-5 minutes of work.
