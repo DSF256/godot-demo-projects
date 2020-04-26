@@ -24,14 +24,14 @@ Assigned to Mathew Bagwell
 Points: 1
 Task 007: Adjust the player's gravity such that it is about 80% of its current value. (1 pt.)
 
-User Story D
-Status: Assigned
-Assigned to Reid Wynkoop
-Points: 5
-$$$ Task 008: Implement a coin and life counter that indicates how many coins and lives the player currently has. (5 pts.)
-$$$Task 009: Cause the user's life counter to go down by 1 should the player die (2 pts.)
-Task 010: Add a "you died" screen when players life reaches 0 (2 pts.)
-Task 023: Implement a "game over" screen when the number of lives hits 0. (2 pts.)
+User Story D<br>
+Status: Assigned<br>
+Assigned to Reid Wynkoop<br>
+Points: 11<br>
+$$$ Task 008: Implement a coin and life counter that indicates how many coins and lives the player currently has. (5 pts.)<br> 
+$$$Task 009: Cause the user's life counter to go down by 1 should the player die (2 pts.)<br>
+$$$Task 010: Add a "you died" screen when players life reaches 0 (2 pts.)<br>
+Task 023: Implement a "game over" screen when the number of lives hits 0. (2 pts.)<br>
 
 $$$
 User Story E
