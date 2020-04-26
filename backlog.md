@@ -21,8 +21,13 @@ $$$
 User Story C
 Status: Completed
 Assigned to Mathew Bagwell
-Points: 1
+Points: 21
 Task 007: Adjust the player's gravity such that it is about 80% of its current value. (1 pt.)
+Task 012: Give the player the ability to hover(button). (5 pt.)
+Task 013: Make the hover function maintain height, while going left to right. (2 pt.)
+Task 014: Change the bullet's color and set gravity to zero(for bullet). (3 pt.)
+Task 015: Make the user's laser automatic(4 shots per second). (5 pt.)
+Task 016: Make the sky fade to darkness then back over time. (5 pt.)
 
 User Story D<br>
 Status: Assigned<br>
