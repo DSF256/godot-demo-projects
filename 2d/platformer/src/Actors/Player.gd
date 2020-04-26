@@ -21,6 +21,8 @@ const DAMAGE_PER_HIT = 25.0 #Amount of life lost per collision with enemys
 
 var enemyList = ["Enemy", "Enemy2" ,"Enemy3", "Enemy4"]
 
+onready var deadTimer = $UI/DiedMenuControl/DiedMenuTimer
+onready var deadMenu = $UI/DiedMenuControl
 
 # Physics process is a built-in loop in Godot.
 # If you define _physics_process on a node, Godot will call it every frame.
@@ -147,7 +149,46 @@ func _collideWithEnemyCheck():
 			for i in range(get_slide_count()):
 				if self.contactWithEnemytimer.is_stopped() and enemyList.has(get_slide_collision(i).collider.name):
 					self.curLife = self.curLife - self.DAMAGE_PER_HIT
+					if(self.curLife < 0):
+						self.curLife = 0
 					$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
 					$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
 					self.contactWithEnemytimer.start()
-						
+					_diedCheck()
+					
+func _diedCheck():
+	if(self.curLife <=0): #Dead
+		self.deadTimer.start()
+		_reset()
+	
+		
+func _reset():
+	#Hides the HP bar
+	for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
+		item.visible = false
+			
+	deadMenu.open()
+	yield(self.deadTimer, "timeout")
+	deadMenu.close()
+	
+	#Shows the HP bar
+	for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
+		item.visible = true
+		
+	self.curLife = self.MAX_LIFE
+	$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
+	$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
+	self.coins = 0
+	$UI/amtCoinsLabel.text = "Coins: " + String(self.coins)
+	self.lives = self.lives -1
+	$UI/amtLivesLabel.text = "Lives: " + String(self.lives)
+	
+	#Puts player back to levels origin spawn point
+	self.set_global_position(Vector2(86, 545))
+	
+	#Reset coins to show
+	var coins = get_parent().get_node("Coins").get_children()
+	for coin in coins:
+		for c in coin.get_children():
+			c.visible = true
+

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/art/tileset/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/Actors/Enemy.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://src/Level/ParallaxBackground.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/audio/music/music.ogg" type="AudioStream" id=8]
 [ext_resource path="res://assets/art/healthBar/healthBarBorder.png" type="Texture" id=9]
+[ext_resource path="res://src/Main/DiedMenu.gd" type="Script" id=10]
 [ext_resource path="res://assets/art/healthBar/fill.png" type="Texture" id=11]
 
 [sub_resource type="Animation" id=1]
@@ -90,7 +91,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-
 [node name="hpCanvasLayer" type="CanvasLayer" parent="Player/UI" index="6"]
 
 [node name="hpContainer" type="HBoxContainer" parent="Player/UI/hpCanvasLayer"]
@@ -113,6 +113,34 @@ margin_bottom = 40.0
 value = 100.0
 texture_under = ExtResource( 9 )
 texture_progress = ExtResource( 11 )
+
+[node name="DiedMenuControl" type="Control" parent="Player/UI" index="7"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DiedMenuTimer" type="Timer" parent="Player/UI/DiedMenuControl"]
+wait_time = 2.0
+
+[node name="ColorRect" type="ColorRect" parent="Player/UI/DiedMenuControl"]
+margin_right = 800.0
+margin_bottom = 480.0
+color = Color( 0.0300293, 0.03125, 0.03125, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="diedLabel" type="Label" parent="Player/UI/DiedMenuControl"]
+margin_left = 363.152
+margin_top = 215.823
+margin_right = 432.152
+margin_bottom = 246.823
+text = "You Died :(
+"
 
 [node name="enemyContactCooldown" type="Timer" parent="Player"]
 process_mode = 0
@@ -327,9 +355,6 @@ position = Vector2( 828.515, 77.262 )
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
-
-autoplay = true
-
 [connection signal="coinCollected" from="Coins/CoinsArc/Coin" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsArc/Coin2" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsArc/Coin3" to="Player" method="_on_coinCollected"]
@@ -370,8 +395,6 @@ autoplay = true
 [connection signal="coinCollected" from="Coins/CoinsHorizontal5/Coin" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsHorizontal5/Coin2" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsHorizontal5/Coin3" to="Player" method="_on_coinCollected"]
-
 [connection signal="input_event" from="Enemies/Enemy" to="Player" method="_on_Enemy_input_event"]
-
 
 [editable path="Player"]
