@@ -15,6 +15,7 @@ signal coinCollected
 func _on_body_entered(_body):
 	if(self.visible):
 		animation_player.play("picked")
+		emit_signal("coinCollected")
 		
 	self.visible = false;
-	emit_signal("coinCollected")
+	
