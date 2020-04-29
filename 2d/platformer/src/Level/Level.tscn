@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/art/tileset/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/Actors/Enemy.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://assets/art/healthBar/healthBarBorder.png" type="Texture" id=9]
 [ext_resource path="res://src/Main/DiedMenu.gd" type="Script" id=10]
 [ext_resource path="res://assets/art/healthBar/fill.png" type="Texture" id=11]
+[ext_resource path="res://src/Objects/Orb.gd" type="Script" id=12]
 
 [sub_resource type="Animation" id=1]
 resource_name = "move"
@@ -81,7 +82,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="amtLivesLabel" type="Label" parent="Player/UI" index="5"]
+[node name="amtOrbsLabel" type="Label" parent="Player/UI" index="5"]
+margin_left = 598.701
+margin_top = 3.48759
+margin_right = 659.701
+margin_bottom = 17.4876
+text = "Orbs: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="amtLivesLabel" type="Label" parent="Player/UI" index="6"]
 margin_left = 670.859
 margin_top = 2.54158
 margin_right = 728.859
@@ -91,7 +102,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="hpCanvasLayer" type="CanvasLayer" parent="Player/UI" index="6"]
+[node name="hpCanvasLayer" type="CanvasLayer" parent="Player/UI" index="7"]
 
 [node name="hpContainer" type="HBoxContainer" parent="Player/UI/hpCanvasLayer"]
 margin_right = 40.0
@@ -114,7 +125,7 @@ value = 100.0
 texture_under = ExtResource( 9 )
 texture_progress = ExtResource( 11 )
 
-[node name="DiedMenuControl" type="Control" parent="Player/UI" index="7"]
+[node name="DiedMenuControl" type="Control" parent="Player/UI" index="8"]
 visible = false
 margin_right = 40.0
 margin_bottom = 40.0
@@ -300,6 +311,24 @@ position = Vector2( -16, 0 )
 [node name="Coin3" parent="Coins/CoinsHorizontal5" instance=ExtResource( 4 )]
 position = Vector2( 16, 0 )
 
+[node name="Orbs" type="Node" parent="."]
+
+[node name="Orb1" parent="Orbs" instance=ExtResource( 4 )]
+position = Vector2( 128.802, 449.934 )
+script = ExtResource( 12 )
+
+[node name="Orb2" parent="Orbs" instance=ExtResource( 4 )]
+position = Vector2( 865.348, 61.3038 )
+script = ExtResource( 12 )
+
+[node name="Orb3" parent="Orbs" instance=ExtResource( 4 )]
+position = Vector2( 830.186, 240.814 )
+script = ExtResource( 12 )
+
+[node name="Orb4" parent="Orbs" instance=ExtResource( 4 )]
+position = Vector2( -128.434, 381.461 )
+script = ExtResource( 12 )
+
 [node name="Platforms" type="Node" parent="."]
 
 [node name="Platform" parent="Platforms" instance=ExtResource( 3 )]
@@ -395,6 +424,10 @@ stream = ExtResource( 8 )
 [connection signal="coinCollected" from="Coins/CoinsHorizontal5/Coin" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsHorizontal5/Coin2" to="Player" method="_on_coinCollected"]
 [connection signal="coinCollected" from="Coins/CoinsHorizontal5/Coin3" to="Player" method="_on_coinCollected"]
+[connection signal="orbCollected" from="Orbs/Orb1" to="Player" method="_on_orbCollected"]
+[connection signal="orbCollected" from="Orbs/Orb2" to="Player" method="_on_orbCollected"]
+[connection signal="orbCollected" from="Orbs/Orb3" to="Player" method="_on_orbCollected"]
+[connection signal="orbCollected" from="Orbs/Orb4" to="Player" method="_on_orbCollected"]
 [connection signal="input_event" from="Enemies/Enemy" to="Player" method="_on_Enemy_input_event"]
 
 [editable path="Player"]
