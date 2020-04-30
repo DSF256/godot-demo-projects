@@ -24,6 +24,14 @@ var enemyList = ["Enemy", "Enemy2" ,"Enemy3", "Enemy4"]
 onready var deadTimer = $UI/DiedMenuControl/DiedMenuTimer
 onready var deadMenu = $UI/DiedMenuControl
 onready var gameOverScreen = get_parent().get_parent().get_node("InterfaceLayer/GameOverScreen")
+onready var gameOverLabel = self.gameOverScreen.get_node("GameOverLabel")
+var _gameOverMessages = ["You are not good enough....\n\nI suggest getting better at the game..", 
+						"Your bloodline is weak.", 
+						"Try and easier game. Checkers, perhaps",
+						"Let your older brother try this level",
+						"LOSER"]
+
+
 
 # Physics process is a built-in loop in Godot.
 # If you define _physics_process on a node, Godot will call it every frame.
@@ -201,6 +209,10 @@ func _resetLevel(numLives):
 
 #Player has run out of lives
 func _gameOver():
+	#set game over text
+	var randNum = randi()%self._gameOverMessages.size() + 1
+	self.gameOverLabel.text = self._gameOverMessages[randNum - 1]
+	
 	self.gameOverScreen.visible = true
 	yield(self.deadTimer, "timeout")
 	self.gameOverScreen.visible = false
