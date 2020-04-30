@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/art/tileset/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://src/Actors/Enemy.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://src/Main/DiedMenu.gd" type="Script" id=10]
 [ext_resource path="res://assets/art/healthBar/fill.png" type="Texture" id=11]
 [ext_resource path="res://src/Objects/Orb.gd" type="Script" id=12]
+[ext_resource path="res://src/Objects/Orb.tscn" type="PackedScene" id=13]
 
 [sub_resource type="Animation" id=1]
 resource_name = "move"
@@ -317,17 +318,25 @@ position = Vector2( 16, 0 )
 position = Vector2( 128.802, 449.934 )
 script = ExtResource( 12 )
 
+[node name="Orb" parent="Orbs/Orb1" instance=ExtResource( 13 )]
+
 [node name="Orb2" parent="Orbs" instance=ExtResource( 4 )]
 position = Vector2( 865.348, 61.3038 )
 script = ExtResource( 12 )
+
+[node name="Orb" parent="Orbs/Orb2" instance=ExtResource( 13 )]
 
 [node name="Orb3" parent="Orbs" instance=ExtResource( 4 )]
 position = Vector2( 830.186, 240.814 )
 script = ExtResource( 12 )
 
+[node name="Orb" parent="Orbs/Orb3" instance=ExtResource( 13 )]
+
 [node name="Orb4" parent="Orbs" instance=ExtResource( 4 )]
 position = Vector2( -128.434, 381.461 )
 script = ExtResource( 12 )
+
+[node name="Orb" parent="Orbs/Orb4" instance=ExtResource( 13 )]
 
 [node name="Platforms" type="Node" parent="."]
 
