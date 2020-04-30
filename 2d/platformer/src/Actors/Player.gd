@@ -159,6 +159,10 @@ func _collideWithEnemyCheck():
 					
 func _diedCheck():
 	if(self.curLife <=0): #Dead
+		#Puts player back to levels origin spawn point
+		#move back to respawn first, so enemies don't further damage him
+		self.set_global_position(Vector2(86, 545))
+		
 		self.lives = self.lives - 1
 		
 		if(self.lives ==0): #GameOver
@@ -180,16 +184,13 @@ func _diedCheck():
 	
 		
 func _resetLevel(numLives):
-	
+	self.lives = numLives
 	self.curLife = self.MAX_LIFE
 	$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
 	$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
 	self.coins = 0
 	$UI/amtCoinsLabel.text = "Coins: " + String(self.coins)
-	$UI/amtLivesLabel.text = "Lives: " + String(numLives)
-	
-	#Puts player back to levels origin spawn point
-	self.set_global_position(Vector2(86, 545))
+	$UI/amtLivesLabel.text = "Lives: " + String(self.lives)
 	
 	#Reset coins to show
 	var coins = get_parent().get_node("Coins").get_children()
