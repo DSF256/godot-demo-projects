@@ -23,11 +23,11 @@ Status: Completed
 Assigned to Mathew Bagwell
 Points: 21
 Task 007: Adjust the player's gravity such that it is about 80% of its current value. (1 pt.)
-Task 012: Give the player the ability to hover(button). (5 pt.)
-Task 013: Make the hover function maintain height, while going left to right. (2 pt.)
-Task 014: Change the bullet's color and set gravity to zero(for bullet). (3 pt.)
-Task 015: Make the user's laser automatic(4 shots per second). (5 pt.)
-Task 016: Make the sky fade to darkness then back over time. (5 pt.)
+Task 027: Give the player the ability to hover(button). (5 pt.)
+Task 028: Make the hover function maintain height, while going left to right. (2 pt.)
+Task 029: Change the bullet's color and set gravity to zero(for bullet). (3 pt.)
+Task 030: Make the user's laser automatic(4 shots per second). (5 pt.)
+Task 031: Make the sky fade to darkness then back over time. (5 pt.)
 
 User Story D<br>
 Status: Assigned<br>
@@ -37,6 +37,7 @@ $$$ Task 008: Implement a coin and life counter that indicates how many coins an
 $$$Task 009: Cause the user's life counter to go down by 1 should the player die (2 pts.)<br>
 $$$Task 010: Add a "you died" screen when players life reaches 0 (2 pts.)<br>
 Task 023: Implement a "game over" screen when the number of lives hits 0. (2 pts.)<br>
+Task 032: When the player dies, reset their coins and orbs to 0. Also reset the coins' and orbs' positions in the level (3 pts.)
 
 $$$
 User Story E
@@ -75,20 +76,13 @@ Task 020: Send friend requests to Buck, Nino, and Rob Noonan on GitHub so that t
 
 User Story I
 Status: In progress
-Assigned to Mathew Bagwell
-Points: 2
-Task 021: Program the sky and cloud images in such a way that they become progressively lighter and darker after a specific interval (2 pts.)
-Task 022: Implement a timer on the sky and clouds to properly time the transitions between the lighter and darker images (1 pt.)
-
-User Story J
-Status: In progress
 Assigned to Everyone
 Points: 5
 Task 024: Leave at least three sentences' worth of feedback on at least 10 different pull requests initiated by team members.
 Task 025: Initiate any combination of at least 20 pull requests and meaningful commits on the godot-demo-projects repo.
 NOTE: Meaningful in this case means the contribution took at least 3-5 minutes of work.
 
-User Story K
+User Story J
 Status: Assigned
 Assigned to whoever wants it (TBD)
 Points: TBD
