@@ -171,7 +171,6 @@ func _reset():
 	#Hides the HP bar
 	for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
 		item.visible = false
-			
 	deadMenu.open()
 	yield(self.deadTimer, "timeout")
 	deadMenu.close()
@@ -187,6 +186,8 @@ func _reset():
 	$UI/amtCoinsLabel.text = "Coins: " + String(self.coins)
 	self.lives = self.lives -1
 	$UI/amtLivesLabel.text = "Lives: " + String(self.lives)
+	self.orbs = 0
+	$UI/amtOrbsLabel.text = "Orbs: " + String(self.orbs)
 	
 	#Puts player back to levels origin spawn point
 	self.set_global_position(Vector2(86, 545))
@@ -196,4 +197,3 @@ func _reset():
 	for coin in coins:
 		for c in coin.get_children():
 			c.visible = true
-
