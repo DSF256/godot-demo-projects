@@ -155,6 +155,8 @@ func _on_coinCollected():
 func _on_orbCollected():
 	self.orbs = self.orbs + 1
 	$UI/amtOrbsLabel.text = "Orbs: " + String(self.orbs)
+	if (self.orbs >= 4):
+		_orbCheck()
 
 #Check to see if the player has collided with any enemies.
 #If so, deal damage to the player
@@ -169,7 +171,12 @@ func _collideWithEnemyCheck():
 					$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
 					self.contactWithEnemytimer.start()
 					_diedCheck()
-					
+
+func _orbCheck():
+	# for now, the game will just quit whenever you collect 4 orbs
+	# obviously, that'll get changed later
+	get_tree().quit()
+
 func _diedCheck():
 	if(self.curLife <=0): #Dead
 		#Puts player back to levels origin spawn point
