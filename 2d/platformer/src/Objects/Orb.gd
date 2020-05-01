@@ -18,8 +18,3 @@ func _on_body_entered(_body):
 		emit_signal("orbCollected")
 		
 	self.visible = false;
-	
-
-
-func orbCollected():
-	pass # Replace with function body.
