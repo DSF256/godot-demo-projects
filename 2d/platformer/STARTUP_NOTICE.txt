@@ -1,0 +1,7 @@
+*** IMPORTANT NOTE ***
+
+When starting the game, the title screen may not appear.
+
+1. Go to Project > Project Settings
+2. Under "General", click on the folder next to "Main Scene"; right now, it is at "res://src/Main/Game.tscn"
+3. Change this directory to "res://src/titlescreen/TitleScreen.tscn"

@@ -11,11 +11,13 @@ onready var shoot_timer = $ShootAnimation
 onready var gun = $Sprite/Gun
 
 var coins = 0.0
+var orbs = 0.0
 var lives = 1.0
 var curLife = 100.0
 onready var contactWithEnemytimer = $enemyContactCooldown
 
 const AMT_COINS_TO_LEVEL_UP = 20.0
+const ORBS_NEEDED = 4.0
 const MAX_LIFE = 100.0
 const DAMAGE_PER_HIT = 25.0 #Amount of life lost per collision with enemys
 
@@ -150,6 +152,9 @@ func _on_coinCollected():
 	
 	$UI/amtCoinsLabel.text = "Coins: " + String(self.coins)
 
+func _on_orbCollected():
+	self.orbs = self.orbs + 1
+	$UI/amtOrbsLabel.text = "Orbs: " + String(self.orbs)
 
 #Check to see if the player has collided with any enemies.
 #If so, deal damage to the player
@@ -172,7 +177,6 @@ func _diedCheck():
 		self.set_global_position(Vector2(86, 545))
 		
 		self.lives = self.lives - 1
-		
 		if(self.lives ==0): #GameOver
 			self.deadTimer.start()
 			_gameOver()
