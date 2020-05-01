@@ -165,34 +165,6 @@ func _diedCheck():
 	if(self.curLife <=0): #Dead
 		self.deadTimer.start()
 		_reset()
-	
-		
-func _reset():
-	#Hides the HP bar
-	for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
-		item.visible = false
-	deadMenu.open()
-	yield(self.deadTimer, "timeout")
-	deadMenu.close()
-	
-	self.lives = self.lives - 1
-		
-		if(self.lives ==0): #GameOver
-			self.deadTimer.start()
-			_gameOver()
-		else:
-			self.deadTimer.start()
-			#Hides the HP bar
-			for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
-				item.visible = false
-			deadMenu.open()
-			yield(self.deadTimer, "timeout")
-			deadMenu.close()
-			
-			#Shows the HP bar
-			for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
-				item.visible = true
-			_resetLevel(self.lives)
 
 #Player has run out of lives
 func _gameOver():
