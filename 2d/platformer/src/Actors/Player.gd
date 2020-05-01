@@ -160,11 +160,48 @@ func _collideWithEnemyCheck():
 					$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
 					self.contactWithEnemytimer.start()
 					_diedCheck()
-					
+		
 func _diedCheck():
 	if(self.curLife <=0): #Dead
-		self.deadTimer.start()
-		_reset()
+
+		#Puts player back to levels origin spawn point
+		#move back to respawn first, so enemies don't further damage him
+		self.set_global_position(Vector2(86, 545))
+		
+		self.lives = self.lives - 1
+		
+		if(self.lives ==0): #GameOver
+			self.deadTimer.start()
+			_gameOver()
+		else:
+			self.deadTimer.start()
+			#Hides the HP bar
+			for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
+				item.visible = false
+			deadMenu.open()
+			yield(self.deadTimer, "timeout")
+			deadMenu.close()
+			
+			#Shows the HP bar
+			for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
+				item.visible = true
+			_resetLevel(self.lives)
+	
+		
+func _resetLevel(numLives):
+	self.lives = numLives
+	self.curLife = self.MAX_LIFE
+	$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
+	$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
+	self.coins = 0
+	$UI/amtCoinsLabel.text = "Coins: " + String(self.coins)
+	$UI/amtLivesLabel.text = "Lives: " + String(self.lives)
+	
+	#Reset coins to show
+	var coins = get_parent().get_node("Coins").get_children()
+	for coin in coins:
+		for c in coin.get_children():
+			c.visible = true
 
 #Player has run out of lives
 func _gameOver():
