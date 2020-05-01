@@ -32,11 +32,11 @@ Task 031: Make the sky fade to darkness then back over time. (5 pt.)
 User Story D<br>
 Status: Assigned<br>
 Assigned to Reid Wynkoop<br>
-Points: 11<br>
+Points: 14<br>
 $$$ Task 008: Implement a coin and life counter that indicates how many coins and lives the player currently has. (5 pts.)<br> 
 $$$Task 009: Cause the user's life counter to go down by 1 should the player die (2 pts.)<br>
 $$$Task 010: Add a "you died" screen when players life reaches 0 (2 pts.)<br>
-Task 023: Implement a "game over" screen when the number of lives hits 0. (2 pts.)<br>
+$$$Task 023: Implement a "game over" screen when the number of lives hits 0. (2 pts.)<br>
 Task 032: When the player dies, reset their coins and orbs to 0. Also reset the coins' and orbs' positions in the level (3 pts.)
 
 $$$
