@@ -23,6 +23,15 @@ var enemyList = ["Enemy", "Enemy2" ,"Enemy3", "Enemy4"]
 
 onready var deadTimer = $UI/DiedMenuControl/DiedMenuTimer
 onready var deadMenu = $UI/DiedMenuControl
+onready var gameOverScreen = get_parent().get_parent().get_node("InterfaceLayer/GameOverScreen")
+onready var gameOverLabel = self.gameOverScreen.get_node("GameOverLabel")
+var _gameOverMessages = ["You are not good enough....\n\nI suggest getting better at the game..", 
+						"Your bloodline is weak.", 
+						"Try and easier game. Checkers, perhaps",
+						"Let your older brother try this level",
+						"LOSER"]
+
+
 
 # Physics process is a built-in loop in Godot.
 # If you define _physics_process on a node, Godot will call it every frame.
@@ -158,33 +167,38 @@ func _collideWithEnemyCheck():
 					
 func _diedCheck():
 	if(self.curLife <=0): #Dead
-		self.deadTimer.start()
-		_reset()
-	
+		#Puts player back to levels origin spawn point
+		#move back to respawn first, so enemies don't further damage him
+		self.set_global_position(Vector2(86, 545))
 		
-func _reset():
-	#Hides the HP bar
-	for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
-		item.visible = false
+		self.lives = self.lives - 1
+		
+		if(self.lives ==0): #GameOver
+			self.deadTimer.start()
+			_gameOver()
+		else:
+			self.deadTimer.start()
+			#Hides the HP bar
+			for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
+				item.visible = false
+			deadMenu.open()
+			yield(self.deadTimer, "timeout")
+			deadMenu.close()
 			
-	deadMenu.open()
-	yield(self.deadTimer, "timeout")
-	deadMenu.close()
+			#Shows the HP bar
+			for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
+				item.visible = true
+			_resetLevel(self.lives)
 	
-	#Shows the HP bar
-	for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
-		item.visible = true
 		
+func _resetLevel(numLives):
+	self.lives = numLives
 	self.curLife = self.MAX_LIFE
 	$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
 	$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
 	self.coins = 0
 	$UI/amtCoinsLabel.text = "Coins: " + String(self.coins)
-	self.lives = self.lives -1
 	$UI/amtLivesLabel.text = "Lives: " + String(self.lives)
-	
-	#Puts player back to levels origin spawn point
-	self.set_global_position(Vector2(86, 545))
 	
 	#Reset coins to show
 	var coins = get_parent().get_node("Coins").get_children()
@@ -192,3 +206,14 @@ func _reset():
 		for c in coin.get_children():
 			c.visible = true
 
+
+#Player has run out of lives
+func _gameOver():
+	#set game over text
+	var randNum = randi()%self._gameOverMessages.size() + 1
+	self.gameOverLabel.text = self._gameOverMessages[randNum - 1]
+	
+	self.gameOverScreen.visible = true
+	yield(self.deadTimer, "timeout")
+	self.gameOverScreen.visible = false
+	_resetLevel(1)
