@@ -4,7 +4,6 @@
 [ext_resource path="res://src/Main/Game.gd" type="Script" id=2]
 [ext_resource path="res://src/Level/Level1.tscn" type="PackedScene" id=3]
 
-
 [node name="Game" type="Node"]
 pause_mode = 2
 script = ExtResource( 2 )

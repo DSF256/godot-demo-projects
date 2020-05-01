@@ -1,3 +1,4 @@
+class_name DiedMenu
 extends Control
 
 func _ready():

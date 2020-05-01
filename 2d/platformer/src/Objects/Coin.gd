@@ -2,7 +2,7 @@ class_name Coin
 extends Area2D
 # Collectible that disappears when the player touches it.
 
-onready var animation_player = $AnimationPlayer
+onready var animation_player:AnimationPlayer = $AnimationPlayer
 signal coinCollected
 
 # The Coins only detects collisions with the Player thanks to its collision mask.
@@ -17,9 +17,4 @@ func _on_body_entered(_body):
 		animation_player.play("picked")
 		emit_signal("coinCollected")
 		
-	self.visible = false;
-	
-
-
-func coinCollected():
-	pass # Replace with function body.
+	self.visible = false

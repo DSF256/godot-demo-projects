@@ -4,29 +4,34 @@ extends Actor
 
 const FLOOR_DETECT_DISTANCE = 20.0
 
-onready var platform_detector = $PlatformDetector
-onready var sprite = $Sprite
-onready var animation_player = $AnimationPlayer
-onready var shoot_timer = $ShootAnimation
-onready var gun = $Sprite/Gun
+onready var platform_detector: RayCast2D = $PlatformDetector
+onready var sprite: Sprite = $Sprite
+onready var animation_player:AnimationPlayer = $AnimationPlayer
+onready var shoot_timer: Timer = $ShootAnimation
+onready var gun: Gun = $Sprite/Gun
+onready var livesLabel: Label = $UI/amtLivesLabel
+onready var coinLabel: Label = $UI/amtCoinsLabel
+onready var orbLabel: Label = $UI/amtOrbsLabel
 
-var coins = 0.0
-var orbs = 0.0
-var lives = 1.0
-var curLife = 100.0
-onready var contactWithEnemytimer = $enemyContactCooldown
+var coins: int = 0
+var orbs: int = 0
+var lives: int = 1
+var curLife: int = 100
+onready var contactWithEnemytimer: Timer = $enemyContactCooldown
 
-const AMT_COINS_TO_LEVEL_UP = 20.0
-const ORBS_NEEDED = 4.0
-const MAX_LIFE = 100.0
-const DAMAGE_PER_HIT = 25.0 #Amount of life lost per collision with enemys
+#Constants
+const AMT_COINS_TO_LEVEL_UP: int = 20
+const ORBS_NEEDED: int = 4
+const MAX_LIFE: int = 100
+#Amount of life lost per collision with enemys
+const DAMAGE_PER_HIT: int = 25 
 
 var enemyList = ["Enemy", "Enemy2" ,"Enemy3", "Enemy4"]
 
-onready var deadTimer = $UI/DiedMenuControl/DiedMenuTimer
-onready var deadMenu = $UI/DiedMenuControl
-onready var gameOverScreen = get_parent().get_parent().get_node("InterfaceLayer/GameOverScreen")
-onready var gameOverLabel = self.gameOverScreen.get_node("GameOverLabel")
+onready var deadTimer: Timer = $UI/DiedMenuControl/DiedMenuTimer
+onready var deadMenu: Control = $UI/DiedMenuControl
+onready var gameOverScreen: Control = get_parent().get_parent().get_node("InterfaceLayer/GameOverScreen")
+onready var gameOverLabel: Label = self.gameOverScreen.get_node("GameOverLabel")
 var _gameOverMessages = ["You are not good enough....\n\nI suggest getting better at the game..", 
 						"Your bloodline is weak.", 
 						"Try and easier game. Checkers, perhaps",
@@ -53,9 +58,9 @@ var _gameOverMessages = ["You are not good enough....\n\nI suggest getting bette
 #   (Ctrl Alt F) to quickly jump to the corresponding function.
 # - If you split the character into a state machine or more advanced pattern,
 #   you can easily move individual functions.
-var TIMER = null
-var delay = 0.25
-var can_shoot = true
+var TIMER: Timer = null
+var delay: float = 0.25
+var can_shoot: bool = true
 
 func on_timeout_complete():
 	can_shoot = true
@@ -148,13 +153,13 @@ func _on_coinCollected():
 	if(self.coins == self.AMT_COINS_TO_LEVEL_UP):
 		self.lives = self.lives + 1
 		self.coins = self.coins - self.AMT_COINS_TO_LEVEL_UP
-		$UI/amtLivesLabel.text = "Lives: " + String(self.lives)
+		_updateLivesLabel()
 	
-	$UI/amtCoinsLabel.text = "Coins: " + String(self.coins)
+	_updateCoinLabel()
 
 func _on_orbCollected():
 	self.orbs = self.orbs + 1
-	$UI/amtOrbsLabel.text = "Orbs: " + String(self.orbs)
+	_updateOrbLabel()
 
 #Check to see if the player has collided with any enemies.
 #If so, deal damage to the player
@@ -165,8 +170,7 @@ func _collideWithEnemyCheck():
 					self.curLife = self.curLife - self.DAMAGE_PER_HIT
 					if(self.curLife < 0):
 						self.curLife = 0
-					$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
-					$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
+					_updateHpBar()
 					self.contactWithEnemytimer.start()
 					_diedCheck()
 					
@@ -194,15 +198,13 @@ func _diedCheck():
 				item.visible = true
 			_resetLevel(self.lives)
 	
-		
 func _resetLevel(numLives):
 	self.lives = numLives
 	self.curLife = self.MAX_LIFE
-	$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
-	$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
+	_updateHpBar()
 	self.coins = 0
-	$UI/amtCoinsLabel.text = "Coins: " + String(self.coins)
-	$UI/amtLivesLabel.text = "Lives: " + String(self.lives)
+	_updateCoinLabel()
+	_updateLivesLabel()
 	
 	#Reset coins to show
 	var coins = get_parent().get_node("Coins").get_children()
@@ -210,14 +212,30 @@ func _resetLevel(numLives):
 		for c in coin.get_children():
 			c.visible = true
 
-
 #Player has run out of lives
 func _gameOver():
 	#set game over text
-	var randNum = randi()%self._gameOverMessages.size() + 1
+	var randNum = randi() % self._gameOverMessages.size() + 1
 	self.gameOverLabel.text = self._gameOverMessages[randNum - 1]
 	
 	self.gameOverScreen.visible = true
 	yield(self.deadTimer, "timeout")
 	self.gameOverScreen.visible = false
 	_resetLevel(1)
+
+
+func _createLabelForCounter(labelName: String, value: int) -> String:
+	return labelName + ": " + str(value)
+
+func _updateCoinLabel() -> void:
+	self.coinLabel.text =  _createLabelForCounter("Coins", self.coins)
+
+func _updateOrbLabel() -> void:
+	 self.orbLabel.text = _createLabelForCounter("Orbs", self.orbs)
+	
+func _updateLivesLabel() -> void:
+	self.livesLabel.text =  _createLabelForCounter("Lives", self.lives)
+	
+func _updateHpBar() -> void:
+	$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
+	$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife

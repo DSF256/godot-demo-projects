@@ -2,7 +2,7 @@ class_name Orb
 extends Area2D
 # Collectible that disappears when the player touches it.
 
-onready var animation_player = $AnimationPlayer
+onready var animation_player:AnimationPlayer = $AnimationPlayer
 signal orbCollected
 
 # The Coins only detects collisions with the Player thanks to its collision mask.
@@ -18,8 +18,3 @@ func _on_body_entered(_body):
 		emit_signal("orbCollected")
 		
 	self.visible = false;
-	
-
-
-func orbCollected():
-	pass # Replace with function body.

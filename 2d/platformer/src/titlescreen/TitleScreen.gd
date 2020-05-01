@@ -1,20 +1,22 @@
+class_name titleScreen
 extends Node
 
-
+onready var _startBtn: Button  = $MarginContainer/VBoxContainer/VBoxContainer/StartBtn
+onready var _exitBtn: Button = $MarginContainer/VBoxContainer/VBoxContainer/ExitBtn
 
 func _ready():
-	$MarginContainer/VBoxContainer/VBoxContainer/TextureButton.grab_focus()
+	_startBtn.grab_focus()
 
 func _physics_process(delta):
-	if $MarginContainer/VBoxContainer/VBoxContainer/TextureButton.is_hovered() == true:
-		$MarginContainer/VBoxContainer/VBoxContainer/TextureButton.grab_focus()
-	if $MarginContainer/VBoxContainer/VBoxContainer/TextureButton2.is_hovered() == true:
-		$MarginContainer/VBoxContainer/VBoxContainer/TextureButton2.grab_focus()
+	if (_startBtn.is_hovered()):
+		_startBtn.grab_focus()
+	if (_exitBtn.is_hovered()):
+		_exitBtn.grab_focus()
 
 
-func _on_TextureButton_pressed():
+func _on_StartBtn_pressed():
 	get_tree().change_scene("res://src/Main/Game.tscn")
 
 
-func _on_TextureButton2_pressed():
+func _on_exitBtn_pressed():
 	get_tree().quit()
