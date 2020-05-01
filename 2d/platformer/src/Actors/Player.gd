@@ -155,7 +155,7 @@ func _on_coinCollected():
 func _on_orbCollected():
 	self.orbs = self.orbs + 1
 	$UI/amtOrbsLabel.text = "Orbs: " + String(self.orbs)
-	if (self.orbs >= 4):
+	if (self.orbs >= ORBS_NEEDED):
 		_orbCheck()
 
 #Check to see if the player has collided with any enemies.

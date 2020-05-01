@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/art/coin/coin.png" type="Texture" id=2]
-[ext_resource path="res://assets/audio/sfx/coin_pickup.wav" type="AudioStream" id=3]
 [ext_resource path="res://src/Objects/Coin.gd" type="Script" id=4]
 
 [sub_resource type="Animation" id=1]
@@ -47,36 +46,24 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Pickup:playing")
+tracks/3/path = NodePath(".:monitoring")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
-tracks/3/enabled = true
+tracks/3/enabled = false
 tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 2,
-"values": [ true ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath(".:monitoring")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = false
-tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ false ]
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("Sprite:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = false
-tracks/5/keys = {
+tracks/4/type = "value"
+tracks/4/path = NodePath("Sprite:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = false
+tracks/4/keys = {
 "times": PoolRealArray( 0, 1.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
@@ -159,7 +146,4 @@ anims/spinning = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 3 )
-
-[node name="Pickup" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 3 )
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
