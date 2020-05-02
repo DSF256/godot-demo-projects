@@ -1,13 +1,13 @@
 <!-- Auto-generated from JSON by GDScript docs maker. Do not edit this document directly. -->
 
-# Coin #
+# Orb #
 
 **Extends:** Area2D
 
 ## Description ##
 
-Class to hold information and behavior about the Coins in the game.
-Coins are a collectable to disappear when collected by the player.
+Class that contains information and behavior for Orbs. 
+It's a Collectible that disappears when the player touches it.
 
 ## Properties ##
 
@@ -23,7 +23,7 @@ var | func _on_body_entered(_body)
 
 ## Signals ##
 
-- signal coinCollected()
+- signal orbCollected()
 
 ## Property Descriptions ##
 
@@ -43,6 +43,6 @@ Animation that makes a sounds when the coin is collected.
 func _on_body_entered(_body)
 ```
 
-When the player collides with a coin, the coin plays its 'picked' animation.
- The coin is then set to be invisible and no longer able to be collected.
- Click the AnimationPlayer node to see the animation timeline.
+When the player collides with an orb, the orb plays its 'picked' animation.
+ The orb is then set to be invisible and unable to be collected again by the
+ player.
