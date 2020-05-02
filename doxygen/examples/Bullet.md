@@ -17,6 +17,7 @@ var | animation_player
 Type | Name
  --- | --- 
 var | func destroy()
+var | func _on_body_entered(body)
 
 ## Property Descriptions ##
 
@@ -32,4 +33,10 @@ var animation_player
 
 ```gdscript
 func destroy()
+```
+
+### \_on\_body\_entered ###
+
+```gdscript
+func _on_body_entered(body)
 ```
