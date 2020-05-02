@@ -1,9 +1,10 @@
+#class containing behavior for the sky in the game. The Sky increases and
+#decreases brightness to mimic night and day.
 class_name GameSky
 extends ParallaxLayer
 
-onready var sprite: Sprite = $Sprite
-
-# Called when the node enters the scene tree for the first time.
+#Called when the player first starts the game. The convertion between
+#night and day repeats forever.
 func _ready():
 	var INTEGER = 1
 	var N = 1;

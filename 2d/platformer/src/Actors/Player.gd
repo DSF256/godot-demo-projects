@@ -1,14 +1,23 @@
+#Contains information and behavior for the Player. Such as movement, counters
+#for lives, and for collectables like Coins and Orbs, and Died and GameOver screen.
 class_name Player
 extends Actor
 
 #Member variables
 onready var platform_detector: RayCast2D = $PlatformDetector
+#The players body
 onready var sprite: Sprite = $Sprite
+#Shooting animation
 onready var animation_player:AnimationPlayer = $AnimationPlayer
+#Cooldown timer for gun
 onready var shoot_timer: Timer = $ShootAnimation
+#Gun, used to shoot enemies
 onready var gun: Gun = $Sprite/Gun
+#Label showing the amount of lives the player has
 onready var livesLabel: Label = $UI/amtLivesLabel
+#Label showing the amount of coins the player has
 onready var coinLabel: Label = $UI/amtCoinsLabel
+#Label showing the amount of orbs the player has
 onready var orbLabel: Label = $UI/amtOrbsLabel
 
 #Current amount of coins, displayed to user
@@ -23,6 +32,7 @@ var curLife: int = 100
 onready var contactWithEnemytimer: Timer = $enemyContactCooldown
 
 #Constants
+
 #Amount of coins needed to gain a life
 const AMT_COINS_TO_LEVEL_UP: int = 20
 #Amount of orbs needed to advance to level 2
@@ -34,7 +44,8 @@ const DAMAGE_PER_HIT: int = 25
 const FLOOR_DETECT_DISTANCE = 20.0
 
 #List of the names of the enemies
-#When the player comes into contact with these enemies, they lose life points
+#When the player comes into contact with these enemies, the Player
+#loses life points
 var enemyList = ["Enemy", "Enemy2" ,"Enemy3", "Enemy4"]
 
 #Timer for the DiedMenu. This is how long the Diedmenu will show
@@ -47,7 +58,11 @@ onready var deadMenu: Control = $UI/DiedMenuControl
 #death. Also clearly dipsplays to the user that they have ran out of lives
 #and they have to restart the game from the beginning
 onready var gameOverScreen: Control = get_parent().get_parent().get_node("InterfaceLayer/GameOverScreen")
+#Label for the GameOverScreen. Displays and insulting message to the user
+#Who just lost all of their lives
 onready var gameOverLabel: Label = self.gameOverScreen.get_node("GameOverLabel")
+
+#List of possible messages for the GameOverScreen
 var _gameOverMessages = ["You are not good enough....\n\nI suggest getting better at the game..", 
 						"Your bloodline is weak.", 
 						"Try and easier game. Checkers, perhaps",
@@ -123,9 +138,6 @@ func _physics_process(_delta):
 		
 	_collideWithEnemyCheck()
 	
-
-
-
 func get_direction():
 	return Vector2(
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
@@ -163,6 +175,11 @@ func get_new_animation(is_shooting = false):
 		animation_new += "_weapon"
 	return animation_new
 
+#Signal method connected to all coins. When a user collects a coin, the 
+#amount of coins the user has increases by 1. If the player has reached 
+#alotted amount to increase their life, the amount of coins is decreased 
+#by that amount with the lives increasing by 1.
+#This method also updated the label in the main screen.
 func _on_coinCollected():
 	self.coins = self.coins + 1
 	
@@ -173,12 +190,16 @@ func _on_coinCollected():
 	
 	_updateCoinLabel()
 
+#Signal method connected to all orbs. When a user collects an orb, the 
+#amount of orbs increases. When a player has collected the amout required
+#per level, they advance to the next level.
 func _on_orbCollected():
 	self.orbs = self.orbs + 1
 	_updateOrbLabel()
 
 #Check to see if the player has collided with any enemies.
-#If so, deal damage to the player
+#If so, deal damage to the player. There is a cooldown timer, so a 
+#player doesn't take damage as fast as the program allows.
 func _collideWithEnemyCheck():
 	if get_slide_count() > 0:
 			for i in range(get_slide_count()):
@@ -190,6 +211,16 @@ func _collideWithEnemyCheck():
 					self.contactWithEnemytimer.start()
 					_diedCheck()
 					
+#Checks if the player has died. If a players HP hits 0 (or below), the player
+#is considered dead. 
+#The player is then:
+#1) respawned with full health, but with 1 fewer life
+#2) loses all coins and orbs
+#3) Is shown a screen telling them they have died.
+#
+#If the player has ran out lives, it's game over.
+#They will start the game all over again, no coins, no orbs, full HP, and one
+#life
 func _diedCheck():
 	if(self.curLife <=0): #Dead
 		#Puts player back to levels origin spawn point
@@ -214,7 +245,12 @@ func _diedCheck():
 				item.visible = true
 			_resetLevel(self.lives)
 	
-func _resetLevel(numLives):
+#This method resets the level when a player has lost a life.
+#The players HP is restored to full and the labels are updated 
+#reflecting the loss of a life, loss of coins and orbs, and full health
+#Coins are also reset so the player can collect them again
+#param: numLives - Number of lives the player now has.
+func _resetLevel(numLives: int) -> void:
 	self.lives = numLives
 	self.curLife = self.MAX_LIFE
 	_updateHpBar()
@@ -223,13 +259,15 @@ func _resetLevel(numLives):
 	_updateLivesLabel()
 	
 	#Reset coins to show
-	var coins = get_parent().get_node("Coins").get_children()
-	for coin in coins:
+	var coinsForReset = get_parent().get_node("Coins").get_children()
+	for coin in coinsForReset:
 		for c in coin.get_children():
 			c.visible = true
 
-#Player has run out of lives
-func _gameOver():
+#The Player's life count has reached 0. The level needs to be reset
+#and the user will see the game over screen. Resets the level and gives the 
+#Player 1 life. 
+func _gameOver() -> void:
 	#set game over text
 	var randNum = randi() % self._gameOverMessages.size() + 1
 	self.gameOverLabel.text = self._gameOverMessages[randNum - 1]
@@ -243,15 +281,23 @@ func _gameOver():
 func _createLabelForCounter(labelName: String, value: int) -> String:
 	return labelName + ": " + str(value)
 
+#Updates the coin lable when the user either a) collects a coin or b) has lost
+# a life
 func _updateCoinLabel() -> void:
 	self.coinLabel.text =  _createLabelForCounter("Coins", self.coins)
 
+#Updates the Orb Label when the user either a) collects an orb or b) has lost
+# a life
 func _updateOrbLabel() -> void:
 	 self.orbLabel.text = _createLabelForCounter("Orbs", self.orbs)
 	
+#Updates the Lives Label when the player has with a) collected the allotted
+#amount of coins to gain a life or b) has lost a life
 func _updateLivesLabel() -> void:
 	self.livesLabel.text =  _createLabelForCounter("Lives", self.lives)
 	
+#updates the HP bar when the player takes damage or the level is reset due to 
+#loss of life
 func _updateHpBar() -> void:
 	$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
 	$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife

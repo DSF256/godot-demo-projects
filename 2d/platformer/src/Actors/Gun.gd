@@ -1,20 +1,27 @@
+# Represents a weapon that spawns and shoots bullets.
 class_name Gun
 extends Position2D
-# Represents a weapon that spawns and shoots bullets.
-# The Cooldown timer controls the cooldown duration between shots.
 
-
+#Constants
+#Speed of the bullet
 const BULLET_VELOCITY = 1000.0
+#Bullet image
 const Bullet = preload("res://src/Objects/Bullet.tscn")
 
-onready var sound_shoot = $Shoot
-onready var timer = $Cooldown
+#Member Variables
 
+#Sound the gun makes when fired
+onready var sound_shoot: AudioStreamPlayer2D = $Shoot
+# The Cooldown timer controls the cooldown duration between shots.
+onready var timer: Timer = $Cooldown
 
-func shoot(direction = 1):
+#This method contains behavior for shooting the gun. 
+#It creates a bullet and fires in the direction the player is facing
+#parameter: direction - direction the bullet should fire (1 = forward)
+func shoot(direction: int = 1) -> bool:
 	if not timer.is_stopped():
 		return false
-	var bullet = Bullet.instance()
+	var bullet: Bullet = Bullet.instance()
 	bullet.global_position = global_position
 	bullet.linear_velocity = Vector2(direction * BULLET_VELOCITY, 0)
 
