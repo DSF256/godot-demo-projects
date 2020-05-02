@@ -1,0 +1,9 @@
+Download and unzip v1.2.1_updated.zip
+
+1. Generate the reference.json file
+  a. Open godot project
+  b. Copy Collector.gs and ReferenceCollecter.gd into Godot project workspace, main folder.
+  c. In the Script view open referenceCollector.gd. Select File -> Run
+  d. This produces a file called reference.json
+  
+2. Generate the .md files
