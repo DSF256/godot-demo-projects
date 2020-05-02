@@ -263,13 +263,13 @@ func _diedCheck():
 func _resetLevel(numLives: int) -> void:
 	self.lives = numLives
 	self.curLife = self.MAX_LIFE
-	self.orbs = 0
+  self.orbs = 0
+
 	_updateHpBar()
 	self.coins = 0
 	_updateCoinLabel()
 	_updateLivesLabel()
 	_updateOrbLabel()
-
 	
 	#Reset coins to show
 	var coinsForReset = get_parent().get_node("Coins").get_children()
