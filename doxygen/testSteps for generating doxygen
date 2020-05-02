@@ -6,4 +6,8 @@ Download and unzip v1.2.1_updated.zip
   c. In the Script view open referenceCollector.gd. Select File -> Run
   d. This produces a file called reference.json
   
-2. Generate the .md files
+2. Generate the .md files (need python installed)
+  a. open the command prompt
+  b. navigate to the directory where v1.2.1_updated.zip was unzipped to.
+  c. type the command "python -m gdscript_docs_maker pathToReference.Json" ex. "python -m gdscript_docs_maker C:\Users\wynko\IntroCS\rew_issue32\godot-demo-projects\2d\platformer\reference.json
+  d. The .md files will be in .\dist
