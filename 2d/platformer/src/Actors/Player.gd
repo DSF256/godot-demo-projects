@@ -197,6 +197,10 @@ func _on_orbCollected():
 	self.orbs = self.orbs + 1
 	_updateOrbLabel()
 
+	if (self.orbs >= ORBS_NEEDED):
+		_orbCheck()
+
+
 #Check to see if the player has collided with any enemies.
 #If so, deal damage to the player. There is a cooldown timer, so a 
 #player doesn't take damage as fast as the program allows.
@@ -210,7 +214,13 @@ func _collideWithEnemyCheck():
 					_updateHpBar()
 					self.contactWithEnemytimer.start()
 					_diedCheck()
-					
+
+func _orbCheck():
+	# for now, the game will just quit whenever you collect 4 orbs
+	# obviously, that'll get changed later
+	get_tree().quit()
+
+
 #Checks if the player has died. If a players HP hits 0 (or below), the player
 #is considered dead. 
 #The player is then:
@@ -253,16 +263,25 @@ func _diedCheck():
 func _resetLevel(numLives: int) -> void:
 	self.lives = numLives
 	self.curLife = self.MAX_LIFE
+  self.orbs = 0
 	_updateHpBar()
 	self.coins = 0
 	_updateCoinLabel()
 	_updateLivesLabel()
+  _updateOrbLabel()
+
 	
 	#Reset coins to show
 	var coinsForReset = get_parent().get_node("Coins").get_children()
 	for coin in coinsForReset:
 		for c in coin.get_children():
 			c.visible = true
+			
+	#Reset orbs to show
+	var orbs = get_parent().get_node("Orbs").get_children()
+	for orb in orbs:
+		orb.visible = true
+
 
 #The Player's life count has reached 0. The level needs to be reset
 #and the user will see the game over screen. Resets the level and gives the 

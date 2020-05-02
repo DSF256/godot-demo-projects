@@ -20,3 +20,4 @@ func _on_body_entered(_body):
 		emit_signal("coinCollected")
 		
 	self.visible = false
+

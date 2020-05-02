@@ -43,10 +43,10 @@ var | func on_timeout_complete()
 var | func get_direction()
 var | func calculate_move_velocity(linear_velocity, direction, speed, is_jump_interrupted)
 var | func get_new_animation(is_shooting = false)
-var | func _on_coinCollected()
-var | func _on_orbCollected()
-var | func _collideWithEnemyCheck()
-var | func _diedCheck()
+void | func _on_coinCollected() -> void
+void | func _on_orbCollected() -> void
+void | func _collideWithEnemyCheck() -> void
+var | func _diedCheck() -> var
 void | func _resetLevel(numLives: int) -> void
 var | func _gameOver() -> var
 String | func _createLabelForCounter(labelName: String, value: int) -> String
@@ -262,7 +262,7 @@ func get_new_animation(is_shooting = false)
 ### \_on\_coinCollected ###
 
 ```gdscript
-func _on_coinCollected()
+func _on_coinCollected() -> void
 ```
 
 Signal method connected to all coins. When a user collects a coin, the 
@@ -274,7 +274,7 @@ This method also updated the label in the main screen.
 ### \_on\_orbCollected ###
 
 ```gdscript
-func _on_orbCollected()
+func _on_orbCollected() -> void
 ```
 
 Signal method connected to all orbs. When a user collects an orb, the 
@@ -284,7 +284,7 @@ per level, they advance to the next level.
 ### \_collideWithEnemyCheck ###
 
 ```gdscript
-func _collideWithEnemyCheck()
+func _collideWithEnemyCheck() -> void
 ```
 
 Check to see if the player has collided with any enemies.
@@ -294,7 +294,7 @@ player doesn't take damage as fast as the program allows.
 ### \_diedCheck ###
 
 ```gdscript
-func _diedCheck()
+func _diedCheck() -> var
 ```
 
 Checks if the player has died. If a players HP hits 0 (or below), the player
