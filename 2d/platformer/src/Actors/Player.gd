@@ -198,17 +198,25 @@ func _diedCheck():
 func _resetLevel(numLives):
 	self.lives = numLives
 	self.curLife = self.MAX_LIFE
+	self.orbs = 0
 	$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
 	$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
 	self.coins = 0
 	$UI/amtCoinsLabel.text = "Coins: " + String(self.coins)
 	$UI/amtLivesLabel.text = "Lives: " + String(self.lives)
+	$UI/amtOrbsLabel.text = "Orbs: " + String(self.orbs)
 	
 	#Reset coins to show
 	var coins = get_parent().get_node("Coins").get_children()
 	for coin in coins:
 		for c in coin.get_children():
 			c.visible = true
+			
+	#Reset orbs to show
+	var orbs = get_parent().get_node("Orbs").get_children()
+	for orb in orbs:
+		orb.visible = true
+
 
 
 #Player has run out of lives
