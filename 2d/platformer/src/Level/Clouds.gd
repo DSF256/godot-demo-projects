@@ -1,10 +1,5 @@
+class_name Clouds
 extends ParallaxLayer
-
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,10 +17,4 @@ func _ready():
 			yield(get_tree().create_timer(5.0), "timeout")
 			N = N / 0.6
 			modulate = Color(1,1,1,N)
-		 # Replace with function body.
-		
-		
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

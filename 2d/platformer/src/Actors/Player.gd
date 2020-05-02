@@ -1,9 +1,7 @@
 class_name Player
 extends Actor
 
-
-const FLOOR_DETECT_DISTANCE = 20.0
-
+#Member variables
 onready var platform_detector: RayCast2D = $PlatformDetector
 onready var sprite: Sprite = $Sprite
 onready var animation_player:AnimationPlayer = $AnimationPlayer
@@ -13,23 +11,41 @@ onready var livesLabel: Label = $UI/amtLivesLabel
 onready var coinLabel: Label = $UI/amtCoinsLabel
 onready var orbLabel: Label = $UI/amtOrbsLabel
 
+#Current amount of coins, displayed to user
 var coins: int = 0
+#Current amount of orbs, displayed to user
 var orbs: int = 0
+#Current amount of lives, displayed to user
 var lives: int = 1
+#Current amount of life (HP points), displayed to user
 var curLife: int = 100
+#Timer used to 
 onready var contactWithEnemytimer: Timer = $enemyContactCooldown
 
 #Constants
+#Amount of coins needed to gain a life
 const AMT_COINS_TO_LEVEL_UP: int = 20
+#Amount of orbs needed to advance to level 2
 const ORBS_NEEDED: int = 4
+#Maximum life for a player
 const MAX_LIFE: int = 100
 #Amount of life lost per collision with enemys
 const DAMAGE_PER_HIT: int = 25 
+const FLOOR_DETECT_DISTANCE = 20.0
 
+#List of the names of the enemies
+#When the player comes into contact with these enemies, they lose life points
 var enemyList = ["Enemy", "Enemy2" ,"Enemy3", "Enemy4"]
 
+#Timer for the DiedMenu. This is how long the Diedmenu will show
+#before disappearing
 onready var deadTimer: Timer = $UI/DiedMenuControl/DiedMenuTimer
+#Control for the Died Menu. Contains the screen to show the user upon death
+#as well as a "you died" message
 onready var deadMenu: Control = $UI/DiedMenuControl
+#Control for the Game Over Screen. Contains the screen to show the user upon
+#death. Also clearly dipsplays to the user that they have ran out of lives
+#and they have to restart the game from the beginning
 onready var gameOverScreen: Control = get_parent().get_parent().get_node("InterfaceLayer/GameOverScreen")
 onready var gameOverLabel: Label = self.gameOverScreen.get_node("GameOverLabel")
 var _gameOverMessages = ["You are not good enough....\n\nI suggest getting better at the game..", 
