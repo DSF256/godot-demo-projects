@@ -21,13 +21,14 @@ $$$
 User Story C<br>
 Status: Completed<br>
 Assigned to Mathew Bagwell<br>
-Points: 21<br>
+Points: 24<br>
 Task 007: Adjust the player's gravity such that it is about 80% of its current value. (1 pt.)<br>
 Task 027: Give the player the ability to hover(button). (5 pt.)<br>
 Task 028: Make the hover function maintain height, while going left to right. (2 pt.)<br>
 Task 029: Change the bullet's color and set gravity to zero(for bullet). (3 pt.)<br>
 Task 030: Make the user's laser automatic(4 shots per second). (5 pt.)<br>
 Task 031: Make the sky fade to darkness then back over time. (5 pt.)<br>
+Task 033: Make the enemies move around and jump at various speeds/intervals. (3 pt.)<br>
 
 User Story D<br>
 Status: Assigned<br>
