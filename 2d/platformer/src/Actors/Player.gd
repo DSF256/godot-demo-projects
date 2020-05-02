@@ -155,6 +155,8 @@ func _on_coinCollected():
 func _on_orbCollected():
 	self.orbs = self.orbs + 1
 	$UI/amtOrbsLabel.text = "Orbs: " + String(self.orbs)
+	if (self.orbs >= ORBS_NEEDED):
+		_orbCheck()
 
 #Check to see if the player has collided with any enemies.
 #If so, deal damage to the player
@@ -169,7 +171,12 @@ func _collideWithEnemyCheck():
 					$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
 					self.contactWithEnemytimer.start()
 					_diedCheck()
-					
+
+func _orbCheck():
+	# for now, the game will just quit whenever you collect 4 orbs
+	# obviously, that'll get changed later
+	get_tree().quit()
+
 func _diedCheck():
 	if(self.curLife <=0): #Dead
 		#Puts player back to levels origin spawn point
@@ -198,17 +205,25 @@ func _diedCheck():
 func _resetLevel(numLives):
 	self.lives = numLives
 	self.curLife = self.MAX_LIFE
+	self.orbs = 0
 	$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
 	$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
 	self.coins = 0
 	$UI/amtCoinsLabel.text = "Coins: " + String(self.coins)
 	$UI/amtLivesLabel.text = "Lives: " + String(self.lives)
+	$UI/amtOrbsLabel.text = "Orbs: " + String(self.orbs)
 	
 	#Reset coins to show
 	var coins = get_parent().get_node("Coins").get_children()
 	for coin in coins:
 		for c in coin.get_children():
 			c.visible = true
+			
+	#Reset orbs to show
+	var orbs = get_parent().get_node("Orbs").get_children()
+	for orb in orbs:
+		orb.visible = true
+
 
 
 #Player has run out of lives
