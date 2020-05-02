@@ -1,12 +1,10 @@
+#Class to edit the color of the clouds in a cyclical fashion similar to
+#night and day. As the sky gets darker, so do the clouds.
+class_name Clouds
 extends ParallaxLayer
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
+#This method is called when the level is loaded. It is always running
+#and changing the color of the clouds in a night and day fashion.
 func _ready():
 	var INTEGER = 1
 	var N = 1;
@@ -22,10 +20,3 @@ func _ready():
 			yield(get_tree().create_timer(5.0), "timeout")
 			N = N / 0.6
 			modulate = Color(1,1,1,N)
-		 # Replace with function body.
-		
-		
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
