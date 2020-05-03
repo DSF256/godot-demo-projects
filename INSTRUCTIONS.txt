@@ -13,13 +13,14 @@ It would do you good to familiarize yourself with how this machine operates, sol
 * Spacebar = Shoot projectile
 ** Press the spacebar repeatedly in order to hover in the air for a short time
 * Escape = Pause
+* H (Hold) = Hover
 
 *** GAMEPLAY ***
 The simulation environment we have set up is set in the middle of a jungle wilderness in an undisclosed location.
 In each level, you will find 40 coins and 4 orbs scattered throughout the terrain.
 The coins are optional, but they are necessary in order to get extra lives.
 Collect all 4 orbs to complete the level.
-Right now, our simulation budget only allowed us to create two levels to test our Jump Bot on, so make the most of them.
+Right now, our simulation budget only allowed us to create one level to test our Jump Bot on, so make the most of it.
 
 *** ENEMIES ***
 In each level, there are 4 mechanical bugs that have been engineered to destroy the Jump Bot.
