@@ -1,0 +1,33 @@
+*** JUMP BOT ***
+
+Welcome to Jump Bot, soldier.
+We have engineered a brand new war machine that will revolutionize remote combat: Jump Bot.
+We have set up some training exercises for you
+
+*** CONTROLS ***
+Despite being a robust war machine, the Jump Bot is easy to control.
+It would do you good to familiarize yourself with how this machine operates, soldier.
+* Up Arrow = Jump
+* Left Arrow = Move left
+* Right Arrow = Move right
+* Spacebar = Shoot projectile
+* Escape = Pause
+* H (Hold) = Hover
+
+*** GAMEPLAY ***
+The simulation environment we have set up is set in the middle of a jungle wilderness in an undisclosed location.
+In each level, you will find 40 coins and 4 orbs scattered throughout the terrain.
+The coins are optional, but they are necessary in order to get extra lives.
+Collect all 4 orbs to complete the level.
+Right now, our simulation budget only allowed us to create one level to test our Jump Bot on, so make the most of it.
+
+*** ENEMIES ***
+In each level, there are 4 mechanical bugs that have been engineered to destroy the Jump Bot.
+A single blast with the Jump Bot's laser turret will disable them quite nicely.
+Thanks to our engineers' hard work, the Jump Bot can sustain up to 4 hits before succumbing to damage.
+Oh, and I probably shouldn't have to tell YOU this, soldier, but don't fall off the dang level.
+Our budget didn't allow us to buy a crane to scoop you off the jungle floor, after all.
+
+And that's it.
+We have confidence that Jump Bot is much more sophisticated than it seems.
+Go out there are prove us right, soldier.
