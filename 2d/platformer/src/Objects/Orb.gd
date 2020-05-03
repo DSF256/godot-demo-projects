@@ -14,8 +14,18 @@ signal orbCollected
 # The orb is then set to be invisible and unable to be collected again by the
 # player.
 func _on_body_entered(_body):
+	#Pre conditions:
+	#animationPlayer is type AnimationPlayer (Takes care of null check as well)
+	assert(animation_player is AnimationPlayer)
+
+	###METHOD BODY  START ###
 	if(self.visible):
+		#Plays a noise so the user knows it was collected
 		animation_player.play("picked")
+		#Sends a signal to Player, increasing their amount of coins
 		emit_signal("orbCollected")
 		
 	self.visible = false;
+	###METHOD BODY  END ###
+	#Post Checks to confirm the pre conditions are still met
+	assert(animation_player is AnimationPlayer)

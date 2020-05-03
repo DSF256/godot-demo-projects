@@ -4,6 +4,7 @@ class_name Player
 extends Actor
 
 #Member variables
+
 onready var platform_detector: RayCast2D = $PlatformDetector
 #The players body
 onready var sprite: Sprite = $Sprite
@@ -28,20 +29,8 @@ var orbs: int = 0
 var lives: int = 1
 #Current amount of life (HP points), displayed to user
 var curLife: int = 100
-#Timer used to 
+#Timer used as a cooldown for contact with the enemies
 onready var contactWithEnemytimer: Timer = $enemyContactCooldown
-
-#Constants
-
-#Amount of coins needed to gain a life
-const AMT_COINS_TO_LEVEL_UP: int = 20
-#Amount of orbs needed to advance to level 2
-const ORBS_NEEDED: int = 4
-#Maximum life for a player
-const MAX_LIFE: int = 100
-#Amount of life lost per collision with enemys
-const DAMAGE_PER_HIT: int = 25 
-const FLOOR_DETECT_DISTANCE = 20.0
 
 #List of the names of the enemies
 #When the player comes into contact with these enemies, the Player
@@ -69,7 +58,17 @@ var _gameOverMessages = ["You are not good enough....\n\nI suggest getting bette
 						"Let your older brother try this level",
 						"LOSER"]
 
+#Constants
 
+#Amount of coins needed to gain a life
+const AMT_COINS_TO_LEVEL_UP: int = 20
+#Amount of orbs needed to advance to level 2
+const ORBS_NEEDED: int = 4
+#Maximum life for a player
+const MAX_LIFE: int = 100
+#Amount of life lost per collision with enemys
+const DAMAGE_PER_HIT: int = 25 
+const FLOOR_DETECT_DISTANCE = 20.0
 
 # Physics process is a built-in loop in Godot.
 # If you define _physics_process on a node, Godot will call it every frame.
@@ -181,45 +180,104 @@ func get_new_animation(is_shooting = false):
 #by that amount with the lives increasing by 1.
 #This method also updated the label in the main screen.
 func _on_coinCollected():
+	#pre-conditions
+	#self.coins != null
+	#self.AMT_COINS_TO_LEVEL_UP != null
+	#self.lives != null
+	assert(self.coins != null)
+	assert(self.AMT_COINS_TO_LEVEL_UP != null)
+	assert(self.lives != null)
+	###METHOD BODY  START ###
+	
+	#The Player has collected a coin, increase the count
 	self.coins = self.coins + 1
 	
+	#Check if the Player has collected enough coins to increase their life count  by 1
 	if(self.coins == self.AMT_COINS_TO_LEVEL_UP):
+		#The player has reached the amount needed to gain a life. Increase life
+		#count by 1, decrease their coin count to reflect the gain of life and update the life label
 		self.lives = self.lives + 1
 		self.coins = self.coins - self.AMT_COINS_TO_LEVEL_UP
 		_updateLivesLabel()
 	
+	#update the coin label for the Player to see how many coins they have
 	_updateCoinLabel()
+	###METHOD BODY  END ###
+	#Post Checks to confirm the pre conditions are still met
+	assert(self.coins != null)
+	assert(self.AMT_COINS_TO_LEVEL_UP != null)
+	assert(self.lives != null)	
 
 #Signal method connected to all orbs. When a user collects an orb, the 
 #amount of orbs increases. When a player has collected the amout required
 #per level, they advance to the next level.
 func _on_orbCollected():
+	#pre-conditions
+	#self.orbs != null
+	#self.ORBS_NEEDED != null
+	#get_tree() != null
+	assert(self.orbs != null)
+	assert(self.ORBS_NEEDED != null)
+	assert(get_tree() != null)
+	###METHOD BODY  START ###
+	
+	#The Player has collected an orb, increase the count and update the 
+	#label for the Player to see
 	self.orbs = self.orbs + 1
 	_updateOrbLabel()
-
-	if (self.orbs >= ORBS_NEEDED):
-		_orbCheck()
+	
+	#Quit the game when the Player has reached the Orbs required for this Level
+	#This is temporary, as there will be more levels soon. Will be converted 
+	#to advancement to the next level
+	if (self.orbs >= self.ORBS_NEEDED):
+		get_tree().quit()
+		
+	###METHOD BODY  END ###
+	#Post Checks to confirm the pre conditions are still met
+	assert(self.orbs != null)
+	assert(self.ORBS_NEEDED != null)
+	assert(get_tree() != null)
 
 
 #Check to see if the player has collided with any enemies.
 #If so, deal damage to the player. There is a cooldown timer, so a 
 #player doesn't take damage as fast as the program allows.
 func _collideWithEnemyCheck():
+	#pre-conditions
+	#get_slide_count() != null
+	#self.contactWithEnemytimer is a Timer (is check is also a null check)
+	#enemyList != null and has > 0 elements
+	#self.curLife != null
+	#self.DAMAGE_PER_HIT != null
+	assert(get_slide_count() != null)
+	assert(self.contactWithEnemytimer is Timer)
+	assert(self.enemyList != null and self.enemyList.size() > 0)
+	assert(self.curLife != null)
+	assert(self.DAMAGE_PER_HIT != null)
+	###METHOD BODY  START ###
+	
 	if get_slide_count() > 0:
-			for i in range(get_slide_count()):
-				if self.contactWithEnemytimer.is_stopped() and enemyList.has(get_slide_collision(i).collider.name):
-					self.curLife = self.curLife - self.DAMAGE_PER_HIT
-					if(self.curLife < 0):
-						self.curLife = 0
-					_updateHpBar()
-					self.contactWithEnemytimer.start()
-					_diedCheck()
-
-func _orbCheck():
-	# for now, the game will just quit whenever you collect 4 orbs
-	# obviously, that'll get changed later
-	get_tree().quit()
-
+		for i in range(get_slide_count()):
+			if self.contactWithEnemytimer.is_stopped() and self.enemyList.has(get_slide_collision(i).collider.name):
+				#Collision with enemy causes damage to the player. Take away damage from HP
+				self.curLife = self.curLife - self.DAMAGE_PER_HIT
+				#if the Player now has negative damage, bump up to 0 (0 is still dead)
+				if(self.curLife < 0):
+					self.curLife = 0
+				#Reflect the new HP count to the Player
+				_updateHpBar()
+				#Start the cooldown timer. Player should not take damage as fast as the program will allow
+				self.contactWithEnemytimer.start()
+				#Check if the Player has died
+				_diedCheck()
+					
+	###METHOD BODY  END ###
+	#Post Checks to confirm the pre conditions are still met
+	assert(get_slide_count() != null)
+	assert(self.contactWithEnemytimer is Timer)
+	assert(self.enemyList != null and self.enemyList.size() > 0)
+	assert(self.curLife != null)
+	assert(self.DAMAGE_PER_HIT != null)
 
 #Checks if the player has died. If a players HP hits 0 (or below), the player
 #is considered dead. 
@@ -232,28 +290,48 @@ func _orbCheck():
 #They will start the game all over again, no coins, no orbs, full HP, and one
 #life
 func _diedCheck():
-	if(self.curLife <=0): #Dead
+	#pre-conditions
+	#self.curLife != null
+	#self.lives != null
+	#get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children() != null
+	#deadMenu != null and is a Control (can be opened and closed)
+	assert(self.curLife != null)
+	assert(self.lives != null)
+	assert(get_parent() != null and get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer") != null and get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children() != null)
+	assert(self.deadMenu is Control)
+	###METHOD BODY  START ###
+	
+	if(self.curLife <=0): #Player has died
 		#Puts player back to levels origin spawn point
 		#move back to respawn first, so enemies don't further damage him
 		self.set_global_position(Vector2(86, 545))
 		
+		#take away life from Player
 		self.lives = self.lives - 1
-		if(self.lives ==0): #GameOver
+		if(self.lives == 0): 
+			#Player has 0 lives, it is game over
 			self.deadTimer.start()
 			_gameOver()
 		else:
 			self.deadTimer.start()
-			#Hides the HP bar
+			#Hides the HP bar, so the deadMenu can be fully shown
 			for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
 				item.visible = false
 			deadMenu.open()
 			yield(self.deadTimer, "timeout")
 			deadMenu.close()
 			
-			#Shows the HP bar
+			#Shows the HP bar to the Player
 			for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
 				item.visible = true
 			_resetLevel(self.lives)
+			
+	###METHOD BODY  END ###
+	#Post Checks to confirm the pre conditions are still met
+	assert(self.curLife != null)
+	assert(self.lives != null)
+	assert(get_parent() != null and get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer") != null and get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children() != null)
+	assert(self.deadMenu is Control)
 	
 #This method resets the level when a player has lost a life.
 #The players HP is restored to full and the labels are updated 
@@ -261,62 +339,179 @@ func _diedCheck():
 #Coins are also reset so the player can collect them again
 #param: numLives - Number of lives the player now has.
 func _resetLevel(numLives: int) -> void:
+	#pre-conditions
+	#nulLives != null
+	#self.lives != null
+	#self.curLife != null
+	#self.MAX_LIFE != null
+	#self.orbs != null
+	#self.coins != null
+	#get_Parent().getNodes("Coins") != null, as well as .get_children() != nulll
+	#get_parent().get_node("Orbs") != null as well as .get_children() != nulll
+	assert(numLives != null)
+	assert(self.lives != null)
+	assert(self.curLife != null)
+	assert(self.MAX_LIFE != null)
+	assert(self.orbs != null)
+	assert(self.coins != null)
+	assert(get_parent() != null and get_parent().get_node("Coins") != null and get_parent().get_node("Coins").get_children() != null)
+	assert(get_parent() != null and get_parent().get_node("Orbs") != null and get_parent().get_node("Orbs").get_children() != null)
+	###METHOD BODY  START ###
+	
+	#updates the amount of lives, HP, an collectable counts
 	self.lives = numLives
 	self.curLife = self.MAX_LIFE
-  self.orbs = 0
-
-	_updateHpBar()
+	self.orbs = 0
 	self.coins = 0
+	#updates the labels shows in the main screen for HP, Collectables, and amount of Player lives
+	_updateHpBar()
 	_updateCoinLabel()
 	_updateLivesLabel()
 	_updateOrbLabel()
 	
-	#Reset coins to show
+	#Reset coins to be shown. I.e not collected yet
 	var coinsForReset = get_parent().get_node("Coins").get_children()
 	for coin in coinsForReset:
 		for c in coin.get_children():
 			c.visible = true
 			
-	#Reset orbs to show
+	#Reset orbs to be shown. I.e not collected yet
 	var orbs = get_parent().get_node("Orbs").get_children()
 	for orb in orbs:
 		orb.visible = true
-
+		
+	###METHOD BODY  END ###
+	#Post Checks to confirm the pre conditions are still met
+	assert(numLives != null)
+	assert(self.lives != null)
+	assert(self.curLife != null)
+	assert(self.MAX_LIFE != null)
+	assert(self.orbs != null)
+	assert(self.coins != null)
+	assert(get_parent() != null and get_parent().get_node("Coins") != null and get_parent().get_node("Coins").get_children() != null)
+	assert(get_parent() != null and get_parent().get_node("Orbs") != null and get_parent().get_node("Orbs").get_children() != null)
 
 #The Player's life count has reached 0. The level needs to be reset
 #and the user will see the game over screen. Resets the level and gives the 
 #Player 1 life. 
 func _gameOver() -> void:
+	#pre-conditions
+	#self._gameOverMessages != null and has at least 1 element
+	#self.gameoverlabel != null
+	#self.gameOverScreen is Control (Can be shown and hidden)
+	#self.deadTimer is a timer 
+	assert(self._gameOverMessages != null && self._gameOverMessages.size() > 0)
+	assert(self.gameOverLabel != null)
+	assert(self.gameOverScreen is Control)
+	# This takes care of the null check as well since null can't be a Timer
+	assert(self.deadTimer is Timer)  
+	
+	###METHOD BODY  START ###
 	#set game over text
-	var randNum = randi() % self._gameOverMessages.size() + 1
+	var randNum: int = randi() % self._gameOverMessages.size() + 1
 	self.gameOverLabel.text = self._gameOverMessages[randNum - 1]
 	
 	self.gameOverScreen.visible = true
 	yield(self.deadTimer, "timeout")
 	self.gameOverScreen.visible = false
 	_resetLevel(1)
+	###METHOD BODY  END ###
+	#Post Checks to confirm the pre conditions are still met
+	assert(self._gameOverMessages != null && self._gameOverMessages.size() > 0)
+	assert(self.gameOverLabel != null)
+	assert(self.gameOverScreen is Control)
+	# This takes care of the null check as well since null can't be a Timer
+	assert(self.deadTimer is Timer)  
+	
 
-
+#This is a helper method for creating the coin, life, and orb labels
+#The label name is concatanated with a semi colon and the value
+#to produce each label
 func _createLabelForCounter(labelName: String, value: int) -> String:
-	return labelName + ": " + str(value)
+	#pre-conditions
+	#labelName != null
+	#value != null && >= 0
+	assert(labelName != null)
+	assert(value != null and value >= 0)
+	###METHOD BODY  START ###
+	var returnLabel: String = labelName + ": " + str(value)
+	###METHOD BODY  END ###
+	#Post Checks to confirm the pre conditions are still met
+	assert(returnLabel != null)
+	
+	return returnLabel
 
-#Updates the coin lable when the user either a) collects a coin or b) has lost
-# a life
+#Updates the coin label when the user either a) collects a coin or b) has lost
+#a life
 func _updateCoinLabel() -> void:
+	#pre-conditions
+	#self.coinLabel != null
+	#self.coins != null && >= 0
+	assert(self.coinLabel != null)
+	assert(self.coins != null and self.coins >= 0)
+	###METHOD BODY  START ###
+	
 	self.coinLabel.text =  _createLabelForCounter("Coins", self.coins)
-
+	###METHOD BODY  END ###
+	
+	#Post Checks to confirm the pre conditions are still met
+	assert(self.coinLabel != null)
+	assert(self.coins != null and self.coins >= 0)
+	
 #Updates the Orb Label when the user either a) collects an orb or b) has lost
 # a life
 func _updateOrbLabel() -> void:
-	 self.orbLabel.text = _createLabelForCounter("Orbs", self.orbs)
+	#pre-conditions
+	#self.orbLabel != null
+	#self.orbs != null && >= 0
+	assert(self.orbLabel != null)
+	assert(self.orbs != null and self.orbs >= 0)
+	
+	###METHOD BODY  START ###
+	self.orbLabel.text = _createLabelForCounter("Orbs", self.orbs)
+	###METHOD BODY  END ###
+	
+	#Post Checks to confirm the pre conditions are still met
+	assert(self.orbLabel != null)
+	assert(self.orbs != null and self.orbs >= 0)
+	
 	
 #Updates the Lives Label when the player has with a) collected the allotted
 #amount of coins to gain a life or b) has lost a life
 func _updateLivesLabel() -> void:
+	#pre-conditions
+	#self.livesLabel != null
+	#self.lives != null && > 0
+	assert(self.livesLabel != null)
+	assert(self.lives != null and self.lives > 0)
+	
+	###METHOD BODY  START ###
+	
 	self.livesLabel.text =  _createLabelForCounter("Lives", self.lives)
+	
+	###METHOD BODY  END ###
+	
+	#Post Checks to confirm the pre conditions are still met
+	assert(self.livesLabel != null)
+	assert(self.lives != null and self.lives > 0)
 	
 #updates the HP bar when the player takes damage or the level is reset due to 
 #loss of life
 func _updateHpBar() -> void:
+	#Pre-conditions
+	#hpLabel is a Label && hpBar is a Texture Progress (also takes care of null check)
+	#self.curLife is not null and >= 0
+	#maxlife is not null
+	assert($UI/hpCanvasLayer/hpContainer/hpLabel is Label and $UI/hpCanvasLayer/hpContainer/hpBar is TextureProgress)
+	assert(self.curLife != null and self.curLife >= 0)
+	assert(self.MAX_LIFE != null)
+	
+	###METHOD BODY  START ###
 	$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
 	$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
+	
+	###METHOD BODY  END ###
+	#Post Checks to confirm the pre conditions are still met
+	assert($UI/hpCanvasLayer/hpContainer/hpLabel is Label and $UI/hpCanvasLayer/hpContainer/hpBar is TextureProgress)
+	assert(self.curLife != null and self.curLife >= 0)
+	assert(self.MAX_LIFE != null)

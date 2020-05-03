@@ -12,22 +12,67 @@ onready var _exitBtn: Button = $MarginContainer/VBoxContainer/VBoxContainer/Exit
 
 #Loads the screen and sets the Start Button as the default choice.
 func _ready() -> void:
+	#PreConditions
+	#StartBtn is a Button (Takes care of null check)
+	assert(_startBtn is Button)
+	###METHOD BODY  START ###
+	
 	_startBtn.grab_focus()
 
+	###METHOD BODY  END ###
+	#Post Checks to confirm the pre conditions are still met
+	assert(_startBtn is Button)
+	
+	
 #Processes what the user does before they click on a button. If either button
 #is hovered over, the focus goes to that button, until another button is
 #hovered over.
 #Parameter: _delta - Not used 
 func _physics_process(_delta: float) ->void:
+	#PreConditions
+	#StartBtn and ExitBtn are Butons (Takes care of null check)
+	assert(_startBtn is Button)
+	assert(_exitBtn is Button)
+	###METHOD BODY  START ###
+	
 	if (_startBtn.is_hovered()):
+		#Highlight StartButton
 		_startBtn.grab_focus()
 	if (_exitBtn.is_hovered()):
+		#Highlight ExitButton
 		_exitBtn.grab_focus()
+		
+	###METHOD BODY  END ###
+	#Post Checks to confirm the pre conditions are still met
+	assert(_startBtn is Button)
+	assert(_exitBtn is Button)
 
 #Start Button action - Loads Level 1
 func _on_StartBtn_pressed():
+	#Pre Conditions 
+	#Get_Tree is not null
+	#Level1 is not null
+	assert(get_tree() != null)
+	assert(ResourceLoader.exists("res://src/Main/Game.tscn"))
+	###METHOD BODY  START ###
+	
 	get_tree().change_scene("res://src/Main/Game.tscn")
+	
+	###METHOD BODY  END ###
+	#Post Checks to confirm the pre conditions are still met
+	assert(get_tree() != null)
+	assert(ResourceLoader.exists("res://src/Main/Game.tscn"))
+	
 
 #Exit Button - closes the application
-func _on_exitBtn_pressed():
+func _on_exitBtn_pressed() -> void:
+	#Pre Conditions 
+	#Get_Tree is not null
+	assert(get_tree() != null)
+	###METHOD BODY  START ###
+	
 	get_tree().quit()
+	
+	###METHOD BODY  END ###
+	#Post Checks to confirm the pre conditions are still met
+	assert(get_tree() != null)
