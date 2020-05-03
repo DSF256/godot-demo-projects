@@ -50,17 +50,17 @@ margin_right = 435.0
 margin_bottom = 329.0
 size_flags_horizontal = 4
 
-[node name="TextureButton" type="TextureButton" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="StartBtn" type="TextureButton" parent="MarginContainer/VBoxContainer/VBoxContainer"]
 margin_right = 169.0
 margin_bottom = 76.0
 texture_normal = ExtResource( 5 )
 texture_focused = ExtResource( 4 )
 
-[node name="TextureButton2" type="TextureButton" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="ExitBtn" type="TextureButton" parent="MarginContainer/VBoxContainer/VBoxContainer"]
 margin_top = 80.0
 margin_right = 169.0
 margin_bottom = 158.0
 texture_normal = ExtResource( 7 )
 texture_focused = ExtResource( 6 )
-[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/TextureButton" to="." method="_on_TextureButton_pressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/TextureButton2" to="." method="_on_TextureButton2_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/StartBtn" to="." method="_on_StartBtn_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/ExitBtn" to="." method="_on_exitBtn_pressed"]
