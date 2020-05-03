@@ -2,7 +2,6 @@ tool
 extends SceneTree
 # Finds and generates a code reference from gdscript files.
 
-
 # Returns a list of file paths found in the directory.
 #
 # **Arguments**
@@ -14,7 +13,7 @@ extends SceneTree
 #   files, ["*.gd"]
 # - is_recursive: if `true`, walks over subdirectories recursively, returning all
 #   files in the tree.
-func find_files(dirpath := "", patterns := PoolStringArray(), is_recursive := true, do_skip_hidden := true) -> PoolStringArray:
+func find_files(dirpath := "", patterns := PoolStringArray(), is_recursive := true, filesUpdatedToGenJson:= PoolStringArray(), do_skip_hidden := true) -> PoolStringArray:
 	var file_paths: = PoolStringArray()
 	var directory: = Directory.new()
 
@@ -34,7 +33,7 @@ func find_files(dirpath := "", patterns := PoolStringArray(), is_recursive := tr
 			file_paths.append_array(find_files(subdirectory, patterns, is_recursive))
 		else:
 			for pattern in patterns:
-				if file_name.match(pattern):
+				if file_name.match(pattern) and filesUpdatedToGenJson.has(file_name):
 					file_paths.append(dirpath.plus_file(file_name))
 		file_name = directory.get_next()
 

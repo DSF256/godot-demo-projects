@@ -13,6 +13,7 @@ signal orbCollected
 # When the player collides with an orb, the orb plays its 'picked' animation.
 # The orb is then set to be invisible and unable to be collected again by the
 # player.
+#Parameter: _body - the Players body
 func _on_body_entered(_body):
 	#Pre conditions:
 	#animationPlayer is type AnimationPlayer (Takes care of null check as well)

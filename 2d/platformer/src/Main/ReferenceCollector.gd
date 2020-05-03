@@ -20,11 +20,19 @@ var is_recursive: = true
 var patterns := ["*.gd"]
 # Output path to save the class reference.
 var save_path := "res://reference.json"
+	
+	
+#WE ONLY WANT TO SHOW THE FILES THAT WE EDITED DURING THE SEMESTER
+#DO NOT OUTPUT FILES WE DIDN'T WORK ON AND SUBSIQUENTLY DIDN'T DOCUMENT
+var filesUpdatedToGenJson := ["Clouds.gd", "Coin.gd",
+	"DiedMenu.gd", "Gun.gd", "Orb.gd",
+	"Player.gd", "Sky.gd", "TitleScreen.gd"]
+	
 
 
 func _run() -> void:
 	var files := PoolStringArray()
 	for dirpath in directories:
-		files.append_array(Collector.find_files(dirpath, patterns, is_recursive))
+		files.append_array(Collector.find_files(dirpath, patterns, is_recursive, filesUpdatedToGenJson))
 	var json : String = Collector.print_pretty_json(Collector.get_reference(files))
 	Collector.save_text(save_path, json)

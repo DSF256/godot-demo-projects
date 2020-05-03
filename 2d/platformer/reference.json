@@ -1,0 +1,887 @@
+[
+  {
+    "name": "Gun",
+    "path": "res://src/Actors/Gun.gd",
+    "extends_class": [
+      "Position2D"
+    ],
+    "extends_file": "",
+    "icon": "",
+    "signature": "class Gun",
+    "description": " Represents a weapon that spawns and shoots bullets.\n",
+    "sub_classes": [
+
+    ],
+    "constants": [
+      {
+        "name": "Bullet",
+        "value": "[PackedScene:18614]",
+        "data_type": "PackedScene",
+        "signature": "const Bullet: PackedScene = preload(\"res://src/Objects/Bullet.tscn\")",
+        "description": "Bullet image\n"
+      },
+      {
+        "name": "BULLET_VELOCITY",
+        "value": 1000,
+        "data_type": "float",
+        "signature": "const BULLET_VELOCITY: float = 1000",
+        "description": "Constants\nSpeed of the bullet\n"
+      }
+    ],
+    "members": [
+      {
+        "name": "sound_shoot",
+        "data_type": "AudioStreamPlayer2D",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var sound_shoot: AudioStreamPlayer2D",
+        "description": "Sound the gun makes when fired\n"
+      },
+      {
+        "name": "timer",
+        "data_type": "Timer",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var timer: Timer",
+        "description": " The Cooldown timer controls the cooldown duration between shots.\n"
+      }
+    ],
+    "signals": [
+
+    ],
+    "methods": [
+      {
+        "name": "shoot",
+        "return_type": "bool",
+        "rpc_mode": 0,
+        "signature": "func shoot(direction: int = 1) -> bool",
+        "description": "This method contains behavior for shooting the gun. \nIt creates a bullet and fires in the direction the player is facing\nparameter: direction - direction the bullet should fire (1 = forward)\n",
+        "arguments": [
+          {
+            "name": "direction",
+            "type": "int",
+            "default_value": 1
+          }
+        ]
+      }
+    ],
+    "static_functions": [
+
+    ]
+  },
+  {
+    "name": "Player",
+    "path": "res://src/Actors/Player.gd",
+    "extends_class": [
+      "Actor"
+    ],
+    "extends_file": "",
+    "icon": "",
+    "signature": "class Player",
+    "description": "Contains information and behavior for the Player. Such as movement, counters\nfor lives, and for collectables like Coins and Orbs, and Died and GameOver screen.\n",
+    "sub_classes": [
+
+    ],
+    "constants": [
+      {
+        "name": "ORBS_NEEDED",
+        "value": 4,
+        "data_type": "int",
+        "signature": "const ORBS_NEEDED: int = 4",
+        "description": "Amount of orbs needed to advance to level 2\n"
+      },
+      {
+        "name": "AMT_COINS_TO_LEVEL_UP",
+        "value": 20,
+        "data_type": "int",
+        "signature": "const AMT_COINS_TO_LEVEL_UP: int = 20",
+        "description": "Amount of coins needed to gain a life\n"
+      },
+      {
+        "name": "DAMAGE_PER_HIT",
+        "value": 25,
+        "data_type": "int",
+        "signature": "const DAMAGE_PER_HIT: int = 25",
+        "description": "Amount of life lost per collision with enemys\n"
+      },
+      {
+        "name": "MAX_LIFE",
+        "value": 100,
+        "data_type": "int",
+        "signature": "const MAX_LIFE: int = 100",
+        "description": "Maximum life for a player\n"
+      },
+      {
+        "name": "FLOOR_DETECT_DISTANCE",
+        "value": 20,
+        "data_type": "float",
+        "signature": "const FLOOR_DETECT_DISTANCE: float = 20",
+        "description": ""
+      }
+    ],
+    "members": [
+      {
+        "name": "platform_detector",
+        "data_type": "RayCast2D",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var platform_detector: RayCast2D",
+        "description": ""
+      },
+      {
+        "name": "sprite",
+        "data_type": "Sprite",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var sprite: Sprite",
+        "description": "The players body\n"
+      },
+      {
+        "name": "animation_player",
+        "data_type": "AnimationPlayer",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var animation_player: AnimationPlayer",
+        "description": "Shooting animation\n"
+      },
+      {
+        "name": "shoot_timer",
+        "data_type": "Timer",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var shoot_timer: Timer",
+        "description": "Cooldown timer for gun\n"
+      },
+      {
+        "name": "gun",
+        "data_type": "Gun",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var gun: Gun",
+        "description": "Gun, used to shoot enemies\n"
+      },
+      {
+        "name": "livesLabel",
+        "data_type": "Label",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var livesLabel: Label",
+        "description": "Label showing the amount of lives the player has\n"
+      },
+      {
+        "name": "coinLabel",
+        "data_type": "Label",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var coinLabel: Label",
+        "description": "Label showing the amount of coins the player has\n"
+      },
+      {
+        "name": "orbLabel",
+        "data_type": "Label",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var orbLabel: Label",
+        "description": "Label showing the amount of orbs the player has\n"
+      },
+      {
+        "name": "coins",
+        "data_type": "int",
+        "default_value": 0,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var coins: int = 0",
+        "description": "Current amount of coins, displayed to user\n"
+      },
+      {
+        "name": "orbs",
+        "data_type": "int",
+        "default_value": 0,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var orbs: int = 0",
+        "description": "Current amount of orbs, displayed to user\n"
+      },
+      {
+        "name": "lives",
+        "data_type": "int",
+        "default_value": 1,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var lives: int = 1",
+        "description": "Current amount of lives, displayed to user\n"
+      },
+      {
+        "name": "curLife",
+        "data_type": "int",
+        "default_value": 100,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var curLife: int = 100",
+        "description": "Current amount of life (HP points), displayed to user\n"
+      },
+      {
+        "name": "contactWithEnemytimer",
+        "data_type": "Timer",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var contactWithEnemytimer: Timer",
+        "description": "Timer used as a cooldown for contact with the enemies\n"
+      },
+      {
+        "name": "enemyList",
+        "data_type": "var",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var enemyList",
+        "description": "List of the names of the enemies\nWhen the player comes into contact with these enemies, the Player\nloses life points\n"
+      },
+      {
+        "name": "deadTimer",
+        "data_type": "Timer",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var deadTimer: Timer",
+        "description": "Timer for the DiedMenu. This is how long the Diedmenu will show\nbefore disappearing\n"
+      },
+      {
+        "name": "deadMenu",
+        "data_type": "Control",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var deadMenu: Control",
+        "description": "Control for the Died Menu. Contains the screen to show the user upon death\nas well as a \"you died\" message\n"
+      },
+      {
+        "name": "gameOverScreen",
+        "data_type": "Control",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var gameOverScreen: Control",
+        "description": "Control for the Game Over Screen. Contains the screen to show the user upon\ndeath. Also clearly dipsplays to the user that they have ran out of lives\nand they have to restart the game from the beginning\n"
+      },
+      {
+        "name": "gameOverLabel",
+        "data_type": "Label",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var gameOverLabel: Label",
+        "description": "Label for the GameOverScreen. Displays and insulting message to the user\nWho just lost all of their lives\n"
+      },
+      {
+        "name": "_gameOverMessages",
+        "data_type": "var",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var _gameOverMessages",
+        "description": "List of possible messages for the GameOverScreen\n"
+      },
+      {
+        "name": "TIMER",
+        "data_type": "Timer",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var TIMER: Timer",
+        "description": " Splitting the physics process logic into functions not only makes it\n easier to read, it help to change or improve the code later on:\n - If you need to change a calculation, you can use Go To -> Function\n   (Ctrl Alt F) to quickly jump to the corresponding function.\n - If you split the character into a state machine or more advanced pattern,\n   you can easily move individual functions.\n"
+      },
+      {
+        "name": "delay",
+        "data_type": "float",
+        "default_value": 0.25,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var delay: float = 0.25",
+        "description": ""
+      },
+      {
+        "name": "can_shoot",
+        "data_type": "bool",
+        "default_value": true,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var can_shoot: bool = true",
+        "description": ""
+      }
+    ],
+    "signals": [
+
+    ],
+    "methods": [
+      {
+        "name": "on_timeout_complete",
+        "return_type": "null",
+        "rpc_mode": 0,
+        "signature": "func on_timeout_complete() -> null",
+        "description": "",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "_physics_process",
+        "return_type": "var",
+        "rpc_mode": 0,
+        "signature": "func _physics_process(_delta)",
+        "description": "",
+        "arguments": [
+          {
+            "name": "_delta",
+            "type": "var"
+          }
+        ]
+      },
+      {
+        "name": "get_direction",
+        "return_type": "var",
+        "rpc_mode": 0,
+        "signature": "func get_direction()",
+        "description": "",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "calculate_move_velocity",
+        "return_type": "var",
+        "rpc_mode": 0,
+        "signature": "func calculate_move_velocity(linear_velocity, direction, speed, is_jump_interrupted)",
+        "description": "",
+        "arguments": [
+          {
+            "name": "linear_velocity",
+            "type": "var"
+          },
+          {
+            "name": "direction",
+            "type": "var"
+          },
+          {
+            "name": "speed",
+            "type": "var"
+          },
+          {
+            "name": "is_jump_interrupted",
+            "type": "var"
+          }
+        ]
+      },
+      {
+        "name": "get_new_animation",
+        "return_type": "var",
+        "rpc_mode": 0,
+        "signature": "func get_new_animation(is_shooting = false)",
+        "description": "",
+        "arguments": [
+          {
+            "name": "is_shooting",
+            "type": "var",
+            "default_value": false
+          }
+        ]
+      },
+      {
+        "name": "_on_coinCollected",
+        "return_type": "null",
+        "rpc_mode": 0,
+        "signature": "func _on_coinCollected() -> null",
+        "description": "Signal method connected to all coins. When a user collects a coin, the \namount of coins the user has increases by 1. If the player has reached \nalotted amount to increase their life, the amount of coins is decreased \nby that amount with the lives increasing by 1.\nThis method also updated the label in the main screen.\n",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "_on_orbCollected",
+        "return_type": "null",
+        "rpc_mode": 0,
+        "signature": "func _on_orbCollected() -> null",
+        "description": "Signal method connected to all orbs. When a user collects an orb, the \namount of orbs increases. When a player has collected the amout required\nper level, they advance to the next level.\n",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "_collideWithEnemyCheck",
+        "return_type": "null",
+        "rpc_mode": 0,
+        "signature": "func _collideWithEnemyCheck() -> null",
+        "description": "Check to see if the player has collided with any enemies.\nIf so, deal damage to the player. There is a cooldown timer, so a \nplayer doesn't take damage as fast as the program allows.\n",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "_diedCheck",
+        "return_type": "var",
+        "rpc_mode": 0,
+        "signature": "func _diedCheck() -> var",
+        "description": "Checks if the player has died. If a players HP hits 0 (or below), the player\nis considered dead. \nThe player is then:\n1) respawned with full health, but with 1 fewer life\n2) loses all coins and orbs\n3) Is shown a screen telling them they have died.\n\nIf the player has ran out lives, it's game over.\nThey will start the game all over again, no coins, no orbs, full HP, and one\nlife\n",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "_resetLevel",
+        "return_type": "null",
+        "rpc_mode": 0,
+        "signature": "func _resetLevel(numLives: int) -> null",
+        "description": "This method resets the level when a player has lost a life.\nThe players HP is restored to full and the labels are updated \nreflecting the loss of a life, loss of coins and orbs, and full health\nCoins are also reset so the player can collect them again\nparam: numLives - Number of lives the player now has.\n",
+        "arguments": [
+          {
+            "name": "numLives",
+            "type": "int"
+          }
+        ]
+      },
+      {
+        "name": "_gameOver",
+        "return_type": "var",
+        "rpc_mode": 0,
+        "signature": "func _gameOver() -> var",
+        "description": "The Player's life count has reached 0. The level needs to be reset\nand the user will see the game over screen. Resets the level and gives the \nPlayer 1 life. \n",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "_createLabelForCounter",
+        "return_type": "String",
+        "rpc_mode": 0,
+        "signature": "func _createLabelForCounter(labelName: String, value: int) -> String",
+        "description": "This is a helper method for creating the coin, life, and orb labels\nThe label name is concatanated with a semi colon and the value\nto produce each label\n",
+        "arguments": [
+          {
+            "name": "labelName",
+            "type": "String"
+          },
+          {
+            "name": "value",
+            "type": "int"
+          }
+        ]
+      },
+      {
+        "name": "_updateCoinLabel",
+        "return_type": "null",
+        "rpc_mode": 0,
+        "signature": "func _updateCoinLabel() -> null",
+        "description": "Updates the coin label when the user either a) collects a coin or b) has lost\na life\n",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "_updateOrbLabel",
+        "return_type": "null",
+        "rpc_mode": 0,
+        "signature": "func _updateOrbLabel() -> null",
+        "description": "Updates the Orb Label when the user either a) collects an orb or b) has lost\n a life\n",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "_updateLivesLabel",
+        "return_type": "null",
+        "rpc_mode": 0,
+        "signature": "func _updateLivesLabel() -> null",
+        "description": "Updates the Lives Label when the player has with a) collected the allotted\namount of coins to gain a life or b) has lost a life\n",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "_updateHpBar",
+        "return_type": "null",
+        "rpc_mode": 0,
+        "signature": "func _updateHpBar() -> null",
+        "description": "updates the HP bar when the player takes damage or the level is reset due to \nloss of life\n",
+        "arguments": [
+
+        ]
+      }
+    ],
+    "static_functions": [
+
+    ]
+  },
+  {
+    "name": "Clouds",
+    "path": "res://src/Level/Clouds.gd",
+    "extends_class": [
+      "ParallaxLayer"
+    ],
+    "extends_file": "",
+    "icon": "",
+    "signature": "class Clouds",
+    "description": "Class to edit the color of the clouds in a cyclical fashion similar to\nnight and day. As the sky gets darker, so do the clouds.\n",
+    "sub_classes": [
+
+    ],
+    "constants": [
+
+    ],
+    "members": [
+
+    ],
+    "signals": [
+
+    ],
+    "methods": [
+      {
+        "name": "_ready",
+        "return_type": "var",
+        "rpc_mode": 0,
+        "signature": "func _ready()",
+        "description": "This method is called when the level is loaded. It is always running\nand changing the color of the clouds in a night and day fashion.\n",
+        "arguments": [
+
+        ]
+      }
+    ],
+    "static_functions": [
+
+    ]
+  },
+  {
+    "name": "GameSky",
+    "path": "res://src/Level/Sky.gd",
+    "extends_class": [
+      "ParallaxLayer"
+    ],
+    "extends_file": "",
+    "icon": "",
+    "signature": "class GameSky",
+    "description": "class containing behavior for the sky in the game. The Sky increases and\ndecreases brightness to mimic night and day.\n",
+    "sub_classes": [
+
+    ],
+    "constants": [
+
+    ],
+    "members": [
+
+    ],
+    "signals": [
+
+    ],
+    "methods": [
+      {
+        "name": "_ready",
+        "return_type": "var",
+        "rpc_mode": 0,
+        "signature": "func _ready()",
+        "description": "Called when the player first starts the game. The convertion between\nnight and day repeats forever.\n",
+        "arguments": [
+
+        ]
+      }
+    ],
+    "static_functions": [
+
+    ]
+  },
+  {
+    "name": "DiedMenu",
+    "path": "res://src/Main/DiedMenu.gd",
+    "extends_class": [
+      "Control"
+    ],
+    "extends_file": "",
+    "icon": "",
+    "signature": "class DiedMenu",
+    "description": "Class the contains behavior for the DiedMenu\nThe contents of the DiedMenu are defined within the Scene Editor.\nThis class is strictly behavior.\n",
+    "sub_classes": [
+
+    ],
+    "constants": [
+
+    ],
+    "members": [
+
+    ],
+    "signals": [
+
+    ],
+    "methods": [
+      {
+        "name": "_ready",
+        "return_type": "var",
+        "rpc_mode": 0,
+        "signature": "func _ready()",
+        "description": "When the game is first loaded, we do not want to show the DiedMenu\nas the player has not died.....yet\n",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "close",
+        "return_type": "var",
+        "rpc_mode": 0,
+        "signature": "func close()",
+        "description": "Closes the DiedMenu by setting the visibility to false.\n",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "open",
+        "return_type": "var",
+        "rpc_mode": 0,
+        "signature": "func open()",
+        "description": "Opens the DiedMenu by setting the visibility to false.\nThis is done instead of loading the menu to save memory.\n",
+        "arguments": [
+
+        ]
+      }
+    ],
+    "static_functions": [
+
+    ]
+  },
+  {
+    "name": "Coin",
+    "path": "res://src/Objects/Coin.gd",
+    "extends_class": [
+      "Area2D"
+    ],
+    "extends_file": "",
+    "icon": "",
+    "signature": "class Coin",
+    "description": "Class to hold information and behavior about the Coins in the game.\nCoins are a collectable to disappear when collected by the player.\n",
+    "sub_classes": [
+
+    ],
+    "constants": [
+
+    ],
+    "members": [
+      {
+        "name": "animation_player",
+        "data_type": "AnimationPlayer",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var animation_player: AnimationPlayer",
+        "description": "Animation that makes a sounds when the coin is collected.\n"
+      }
+    ],
+    "signals": [
+      {
+        "name": "coinCollected",
+        "arguments": [
+
+        ],
+        "signature": "signal coinCollected()",
+        "description": "sends a signal to Player to increase the amount of coins by 1\n"
+      }
+    ],
+    "methods": [
+      {
+        "name": "_on_body_entered",
+        "return_type": "null",
+        "rpc_mode": 0,
+        "signature": "func _on_body_entered(_body) -> null",
+        "description": " When the player collides with a coin, the coin plays its 'picked' animation.\n The coin is then set to be invisible and no longer able to be collected.\n Click the AnimationPlayer node to see the animation timeline.\n",
+        "arguments": [
+          {
+            "name": "_body",
+            "type": "var"
+          }
+        ]
+      }
+    ],
+    "static_functions": [
+
+    ]
+  },
+  {
+    "name": "Orb",
+    "path": "res://src/Objects/Orb.gd",
+    "extends_class": [
+      "Area2D"
+    ],
+    "extends_file": "",
+    "icon": "",
+    "signature": "class Orb",
+    "description": "Class that contains information and behavior for Orbs. \nIt's a Collectible that disappears when the player touches it.\n",
+    "sub_classes": [
+
+    ],
+    "constants": [
+
+    ],
+    "members": [
+      {
+        "name": "animation_player",
+        "data_type": "AnimationPlayer",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var animation_player: AnimationPlayer",
+        "description": "Animation that makes a sounds when the coin is collected.\n"
+      }
+    ],
+    "signals": [
+      {
+        "name": "orbCollected",
+        "arguments": [
+
+        ],
+        "signature": "signal orbCollected()",
+        "description": ""
+      }
+    ],
+    "methods": [
+      {
+        "name": "_on_body_entered",
+        "return_type": "var",
+        "rpc_mode": 0,
+        "signature": "func _on_body_entered(_body)",
+        "description": " When the player collides with an orb, the orb plays its 'picked' animation.\n The orb is then set to be invisible and unable to be collected again by the\n player.\n",
+        "arguments": [
+          {
+            "name": "_body",
+            "type": "var"
+          }
+        ]
+      }
+    ],
+    "static_functions": [
+
+    ]
+  },
+  {
+    "name": "titleScreen",
+    "path": "res://src/titlescreen/TitleScreen.gd",
+    "extends_class": [
+      "Node"
+    ],
+    "extends_file": "",
+    "icon": "",
+    "signature": "class titleScreen",
+    "description": "Contains information and behavior for the Title Screen. The Title Screen\nis the first thing the user sees when the game is launched. It has a 'Start'\nand 'Exit' buttons for the user to click.\n",
+    "sub_classes": [
+
+    ],
+    "constants": [
+
+    ],
+    "members": [
+      {
+        "name": "_startBtn",
+        "data_type": "Button",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var _startBtn: Button",
+        "description": "Member Variables\nStart Button - When clicked, the user begins the game from level 1\n"
+      },
+      {
+        "name": "_exitBtn",
+        "data_type": "Button",
+        "default_value": null,
+        "setter": "",
+        "getter": "",
+        "export": false,
+        "signature": "var _exitBtn: Button",
+        "description": "Exit Button - When clicked, the game closes.\n"
+      }
+    ],
+    "signals": [
+
+    ],
+    "methods": [
+      {
+        "name": "_ready",
+        "return_type": "null",
+        "rpc_mode": 0,
+        "signature": "func _ready() -> null",
+        "description": "Loads the screen and sets the Start Button as the default choice.\n",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "_physics_process",
+        "return_type": "null",
+        "rpc_mode": 0,
+        "signature": "func _physics_process(_delta: float) -> null",
+        "description": "Processes what the user does before they click on a button. If either button\nis hovered over, the focus goes to that button, until another button is\nhovered over.\nParameter: _delta - Not used \n",
+        "arguments": [
+          {
+            "name": "_delta",
+            "type": "float"
+          }
+        ]
+      },
+      {
+        "name": "_on_StartBtn_pressed",
+        "return_type": "var",
+        "rpc_mode": 0,
+        "signature": "func _on_StartBtn_pressed()",
+        "description": "Start Button action - Loads Level 1\n",
+        "arguments": [
+
+        ]
+      },
+      {
+        "name": "_on_exitBtn_pressed",
+        "return_type": "null",
+        "rpc_mode": 0,
+        "signature": "func _on_exitBtn_pressed() -> null",
+        "description": "Exit Button - closes the application\n",
+        "arguments": [
+
+        ]
+      }
+    ],
+    "static_functions": [
+
+    ]
+  }
+]

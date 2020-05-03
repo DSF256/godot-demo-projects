@@ -14,6 +14,7 @@ signal coinCollected
 # When the player collides with a coin, the coin plays its 'picked' animation.
 # The coin is then set to be invisible and no longer able to be collected.
 # Click the AnimationPlayer node to see the animation timeline.
+#Parameter: _body - the Players body
 func _on_body_entered(_body) -> void:
 		#Pre conditions:
 	#animationPlayer is type AnimationPlayer (Takes care of null check as well)

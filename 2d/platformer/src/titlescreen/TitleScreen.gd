@@ -13,15 +13,15 @@ onready var _exitBtn: Button = $MarginContainer/VBoxContainer/VBoxContainer/Exit
 #Loads the screen and sets the Start Button as the default choice.
 func _ready() -> void:
 	#PreConditions
-	#StartBtn is a Button (Takes care of null check)
-	assert(_startBtn is Button)
+	#StartBtn != null
+	assert(_startBtn != null)
 	###METHOD BODY  START ###
 	
 	_startBtn.grab_focus()
 
 	###METHOD BODY  END ###
 	#Post Checks to confirm the pre conditions are still met
-	assert(_startBtn is Button)
+	assert(_startBtn != null)
 	
 	
 #Processes what the user does before they click on a button. If either button
@@ -30,9 +30,9 @@ func _ready() -> void:
 #Parameter: _delta - Not used 
 func _physics_process(_delta: float) ->void:
 	#PreConditions
-	#StartBtn and ExitBtn are Butons (Takes care of null check)
-	assert(_startBtn is Button)
-	assert(_exitBtn is Button)
+	#StartBtn and ExitBtn != null
+	assert(_startBtn != null)
+	assert(_exitBtn != null)
 	###METHOD BODY  START ###
 	
 	if (_startBtn.is_hovered()):
@@ -44,8 +44,8 @@ func _physics_process(_delta: float) ->void:
 		
 	###METHOD BODY  END ###
 	#Post Checks to confirm the pre conditions are still met
-	assert(_startBtn is Button)
-	assert(_exitBtn is Button)
+	assert(_startBtn != null)
+	assert(_exitBtn != null)
 
 #Start Button action - Loads Level 1
 func _on_StartBtn_pressed():

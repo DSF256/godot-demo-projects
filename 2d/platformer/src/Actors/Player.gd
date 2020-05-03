@@ -35,7 +35,7 @@ onready var contactWithEnemytimer: Timer = $enemyContactCooldown
 #List of the names of the enemies
 #When the player comes into contact with these enemies, the Player
 #loses life points
-var enemyList = ["Enemy", "Enemy2" ,"Enemy3", "Enemy4"]
+var enemyList: Array = ["Enemy", "Enemy2" ,"Enemy3", "Enemy4"]
 
 #Timer for the DiedMenu. This is how long the Diedmenu will show
 #before disappearing
@@ -52,13 +52,13 @@ onready var gameOverScreen: Control = get_parent().get_parent().get_node("Interf
 onready var gameOverLabel: Label = self.gameOverScreen.get_node("GameOverLabel")
 
 #List of possible messages for the GameOverScreen
-var _gameOverMessages = ["You are not good enough....\n\nI suggest getting better at the game..", 
+var _gameOverMessages: Array = ["You are not good enough....\n\nI suggest getting better at the game..", 
 						"Your bloodline is weak.", 
 						"Try and easier game. Checkers, perhaps",
 						"Let your older brother try this level",
 						"LOSER"]
 
-#Constants
+#CONSTANTS
 
 #Amount of coins needed to gain a life
 const AMT_COINS_TO_LEVEL_UP: int = 20
@@ -68,7 +68,7 @@ const ORBS_NEEDED: int = 4
 const MAX_LIFE: int = 100
 #Amount of life lost per collision with enemys
 const DAMAGE_PER_HIT: int = 25 
-const FLOOR_DETECT_DISTANCE = 20.0
+const FLOOR_DETECT_DISTANCE: float = 20.0
 
 # Physics process is a built-in loop in Godot.
 # If you define _physics_process on a node, Godot will call it every frame.
@@ -92,7 +92,7 @@ var TIMER: Timer = null
 var delay: float = 0.25
 var can_shoot: bool = true
 
-func on_timeout_complete():
+func on_timeout_complete() -> void:
 	can_shoot = true
 
 func _physics_process(_delta):
@@ -161,7 +161,6 @@ func calculate_move_velocity(
 		
 	return velocity
 
-
 func get_new_animation(is_shooting = false):
 	var animation_new = ""
 	if is_on_floor():
@@ -179,7 +178,7 @@ func get_new_animation(is_shooting = false):
 #alotted amount to increase their life, the amount of coins is decreased 
 #by that amount with the lives increasing by 1.
 #This method also updated the label in the main screen.
-func _on_coinCollected():
+func _on_coinCollected() -> void:
 	#pre-conditions
 	#self.coins != null
 	#self.AMT_COINS_TO_LEVEL_UP != null
@@ -211,7 +210,7 @@ func _on_coinCollected():
 #Signal method connected to all orbs. When a user collects an orb, the 
 #amount of orbs increases. When a player has collected the amout required
 #per level, they advance to the next level.
-func _on_orbCollected():
+func _on_orbCollected() -> void:
 	#pre-conditions
 	#self.orbs != null
 	#self.ORBS_NEEDED != null
@@ -242,7 +241,7 @@ func _on_orbCollected():
 #Check to see if the player has collided with any enemies.
 #If so, deal damage to the player. There is a cooldown timer, so a 
 #player doesn't take damage as fast as the program allows.
-func _collideWithEnemyCheck():
+func _collideWithEnemyCheck() -> void:
 	#pre-conditions
 	#get_slide_count() != null
 	#self.contactWithEnemytimer is a Timer (is check is also a null check)
@@ -289,7 +288,7 @@ func _collideWithEnemyCheck():
 #If the player has ran out lives, it's game over.
 #They will start the game all over again, no coins, no orbs, full HP, and one
 #life
-func _diedCheck():
+func _diedCheck() -> void:
 	#pre-conditions
 	#self.curLife != null
 	#self.lives != null
@@ -337,7 +336,7 @@ func _diedCheck():
 #The players HP is restored to full and the labels are updated 
 #reflecting the loss of a life, loss of coins and orbs, and full health
 #Coins are also reset so the player can collect them again
-#param: numLives - Number of lives the player now has.
+#Parameter: numLives - Number of lives the player now has.
 func _resetLevel(numLives: int) -> void:
 	#pre-conditions
 	#nulLives != null
@@ -427,6 +426,8 @@ func _gameOver() -> void:
 #This is a helper method for creating the coin, life, and orb labels
 #The label name is concatanated with a semi colon and the value
 #to produce each label
+#Parameter - labelName - Collectable name Ex: Coin, Orb, Life
+#Parameter - value - amount of collectable the Player has
 func _createLabelForCounter(labelName: String, value: int) -> String:
 	#pre-conditions
 	#labelName != null
