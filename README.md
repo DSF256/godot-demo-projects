@@ -27,3 +27,8 @@ be used with [Godot Engine](https://godotengine.org), the open source
 
 Those demos are distributed under the terms of the MIT license, as
 described in the [LICENSE.md](LICENSE.md) file.
+
+## Doxygen
+Here is the [DoxyFile](https://github.com/DSF256/godot-demo-projects/blob/master/doxygen/Doxyfile(FINAL))
+<br>If you would like to generate the .md files used please see [testStepsToGenDocumentation.md](https://github.com/DSF256/godot-demo-projects/blob/master/doxygen/testStepsToGenDocumentation.md)
+
