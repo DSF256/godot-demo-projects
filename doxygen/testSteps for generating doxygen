@@ -1,13 +1,13 @@
-Download and unzip v1.2.1_updated.zip
+# Generate the .md files from reference.json(need python installed)
+1. Download and unzip to Desktop
+2. Download .json file to desktop
+3. In the Command Prompt, navigate to ~\Desktop\gdDocMaker_v1.2.1
+4. Execute the command "python -m gdscript_docs_maker ..\reference.json"
+5. The .md files generated will be saved in gdDocmaker_v1.2.1\dist
 
 1. Generate the reference.json file
   a. Open godot project
   b. Copy Collector.gs and ReferenceCollecter.gd into Godot project workspace, main folder.
   c. In the Script view open referenceCollector.gd. Select File -> Run
   d. This produces a file called reference.json
-  
-2. Generate the .md files from reference.json(need python installed)
-  a. open the command prompt
-  b. navigate to the directory where v1.2.1_updated.zip was unzipped to.
-  c. type the command "python -m gdscript_docs_maker pathToReference.Json" ex. "python -m gdscript_docs_maker C:\Users\wynko\IntroCS\rew_issue32\godot-demo-projects\2d\platformer\reference.json
-  d. The .md files will be in .\dist
+ 
