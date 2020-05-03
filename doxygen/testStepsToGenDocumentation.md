@@ -1,5 +1,5 @@
 ##### Generate the .md files from reference.json(need python installed)
-1. Download gdDocMaker_v1.2.1 and unzip to Desktop
+1. Download [gdDocMaker_v1.2.1](https://github.com/DSF256/godot-demo-projects/blob/master/doxygen/gdDocMaker_v1.2.1.zip) and unzip to Desktop
 2. Download reference.json file to desktop
 3. In the Command Prompt, navigate to ~\Desktop\gdDocMaker_v1.2.1
 4. Execute the command "python -m gdscript_docs_maker ..\reference.json"
