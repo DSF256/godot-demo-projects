@@ -15,9 +15,10 @@ signal coinCollected
 # The coin is then set to be invisible and no longer able to be collected.
 # Click the AnimationPlayer node to see the animation timeline.
 func _on_body_entered(_body):
+	print("_on_body_entered function(Coin.gd)")
 	if(self.visible):
 		animation_player.play("picked")
 		emit_signal("coinCollected")
-		
+	print("Coin is not visible")
 	self.visible = false
 

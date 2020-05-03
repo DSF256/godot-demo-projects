@@ -6,8 +6,10 @@
 
 ## Description ##
 
-Contains information and behavior for the Player. Such as movement, counters
-for lives, and for collectables like Coins and Orbs, and Died and GameOver screen.
+Contains information and behavior for the Player. 
+
+NOTE: This file now contains counters
+for lives, and for collectables like Coins and Orbs, and Died and GameOver screen. It also carries the function that allows the user to hover, and shoot it's gun automatically. 
 
 ## Properties ##
 

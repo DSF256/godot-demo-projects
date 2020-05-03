@@ -10,13 +10,16 @@ func _ready():
 	var N = 1;
 	while(INTEGER !=0):
 		modulate = Color(1,1,1,1)
+		print("Modulating Clouds(Clouds.gd)")
 		yield(get_tree().create_timer(20.0), "timeout")
 		for n in range(1,20):
 			yield(get_tree().create_timer(5.0), "timeout")
 			N = N * 0.6
 			modulate = Color(1,1,1,N)
+			print("Modulating Clouds(Clouds.gd)")
 		yield(get_tree().create_timer(20.0), "timeout")
 		for n in range(1,20):
 			yield(get_tree().create_timer(5.0), "timeout")
 			N = N / 0.6
 			modulate = Color(1,1,1,N)
+			print("Modulating Clouds(Clouds.gd)")

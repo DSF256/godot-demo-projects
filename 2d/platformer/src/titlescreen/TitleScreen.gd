@@ -4,6 +4,10 @@
 class_name titleScreen
 extends Node
 
+# Vars to track whether the pause screen has been opened/closed only ONCE
+var p1 = true
+var p2 = true
+
 #Member Variables
 #Start Button - When clicked, the user begins the game from level 1
 onready var _startBtn: Button  = $MarginContainer/VBoxContainer/VBoxContainer/StartBtn
@@ -21,13 +25,21 @@ func _ready() -> void:
 func _physics_process(_delta: float) ->void:
 	if (_startBtn.is_hovered()):
 		_startBtn.grab_focus()
+		if(p1 == true):
+			print("Texture button1(start) grabbed focus for first time, wont display again")
+			p1 = false
 	if (_exitBtn.is_hovered()):
 		_exitBtn.grab_focus()
+		if(p2 == true):
+			print("Texture button2(exit) grabbed focus for first time, wont display again")
+			p2 = false
 
 #Start Button action - Loads Level 1
 func _on_StartBtn_pressed():
+	print("_on_TextureButton_pressed function(TitleScreen.gd)")
 	get_tree().change_scene("res://src/Main/Game.tscn")
 
 #Exit Button - closes the application
 func _on_exitBtn_pressed():
+	print("_on_TextureButton2_pressed function(TitleScreen.gd)")
 	get_tree().quit()

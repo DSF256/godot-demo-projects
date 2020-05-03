@@ -5,9 +5,8 @@
 **Extends:** Node
 
 ## Description ##
-
-Contains information and behavior for the Title Screen. The Title Screen
-is the first thing the user sees when the game is launched. It has a 'Start'
+NOTE: We created the title screen so the player has something to introduce them in the game.
+The Title Screen is the first thing the user sees when the game is launched. It has a 'Start'
 and 'Exit' buttons for the user to click.
 
 ## Methods ##

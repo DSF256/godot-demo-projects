@@ -3,6 +3,15 @@
 class_name Player
 extends Actor
 
+var e1 = true
+var e2 = true
+var e3 = true
+var e4 = true
+var e5 = true
+var e6 = true
+var e7 = true
+var e8 = true
+
 #Member variables
 onready var platform_detector: RayCast2D = $PlatformDetector
 #The players body
@@ -95,6 +104,7 @@ var can_shoot: bool = true
 
 func on_timeout_complete():
 	can_shoot = true
+	print("on_timeout_complete (Player.gd) - Player may shoot again.")
 
 func _physics_process(_delta):
 	var direction = get_direction()
@@ -113,6 +123,9 @@ func _physics_process(_delta):
 	# This will make Robi face left or right depending on the direction you move.
 	if direction.x != 0:
 		sprite.scale.x = direction.x
+		if(e1 == true):
+			print("Player sprite moved (Player.gd) called for first time, won't display again")
+			e1 = false
 
 	# We use the sprite's scale to store Robi’s look direction which allows us to shoot
 	# bullets forward.
@@ -128,17 +141,29 @@ func _physics_process(_delta):
 		is_shooting = gun.shoot(sprite.scale.x)
 		can_shoot = false
 		TIMER.start()
+		if(e2 == true):
+			print("Player shooting (Player.gd) called for first time, won't display again")
+			e2 = false
 	if Input.get_action_strength("ui_hover"):
 		_velocity.y =- 5
+		if(e3 == true):
+			print("Player hovering (Player.gd) called for first time, won't display again")
+			e3 = false
 	var animation = get_new_animation(is_shooting)
 	if animation != animation_player.current_animation and shoot_timer.is_stopped():
 		if is_shooting:
 			shoot_timer.start()
 		animation_player.play(animation)
 		
+	if(e4 == true):
+		print("Physics process (Player.gd) called for first time, won't display again")
+		e4 = false
 	_collideWithEnemyCheck()
 	
 func get_direction():
+	if(e5 == true):
+		print("get_direction (Player.gd) printed once, will not show again")
+		e5 = false
 	return Vector2(
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
 		-Input.get_action_strength("jump") if is_on_floor() and Input.is_action_just_pressed("jump") else 0.0
@@ -157,9 +182,13 @@ func calculate_move_velocity(
 	velocity.x = speed.x * direction.x
 	if direction.y != 0.0:
 		velocity.y = speed.y * direction.y
+		print("Player Velocity calculated")
 	if is_jump_interrupted:
 		velocity.y = 0.0
-		
+		print("Player's velocity interrupted")
+	if(e6 == true):
+		print("caluclate_move_velocity printed once, will not show again")
+		e6 = false
 	return velocity
 
 
@@ -167,12 +196,19 @@ func get_new_animation(is_shooting = false):
 	var animation_new = ""
 	if is_on_floor():
 		animation_new = "run" if abs(_velocity.x) > 0.1 else "idle"
+		if(e7 == true):
+			print("Player is idle; will not show again")
+			e7 = false
 	else:
 		animation_new = "falling" if _velocity.y > 0 else "jumping"
 		#MESSING WITH GRAVITY
 		_velocity.y -= 10;
+		if(e8 == true):
+			print("Player is falling; will not show again")
+			e8 = false
 	if is_shooting:
 		animation_new += "_weapon"
+		print("Player is shooting")
 	return animation_new
 
 #Signal method connected to all coins. When a user collects a coin, the 
@@ -186,8 +222,10 @@ func _on_coinCollected():
 	if(self.coins == self.AMT_COINS_TO_LEVEL_UP):
 		self.lives = self.lives + 1
 		self.coins = self.coins - self.AMT_COINS_TO_LEVEL_UP
+		print("Player has gained 20 coins and got a 1UP")
 		_updateLivesLabel()
 	
+	print("Coin cointer updated")
 	_updateCoinLabel()
 
 #Signal method connected to all orbs. When a user collects an orb, the 
@@ -195,6 +233,7 @@ func _on_coinCollected():
 #per level, they advance to the next level.
 func _on_orbCollected():
 	self.orbs = self.orbs + 1
+	print("Orb counter updated")
 	_updateOrbLabel()
 
 	if (self.orbs >= ORBS_NEEDED):
@@ -213,11 +252,13 @@ func _collideWithEnemyCheck():
 						self.curLife = 0
 					_updateHpBar()
 					self.contactWithEnemytimer.start()
+					print("Check to see if died from enemy contact")
 					_diedCheck()
 
 func _orbCheck():
 	# for now, the game will just quit whenever you collect 4 orbs
 	# obviously, that'll get changed later
+	print("_orbCheck function call")
 	get_tree().quit()
 
 
@@ -236,16 +277,20 @@ func _diedCheck():
 		#Puts player back to levels origin spawn point
 		#move back to respawn first, so enemies don't further damage him
 		self.set_global_position(Vector2(86, 545))
+		print("Player's position reset")
 		
 		self.lives = self.lives - 1
+		print("Player's life reduced by one")
 		if(self.lives ==0): #GameOver
 			self.deadTimer.start()
 			_gameOver()
+			print("GAME OVER")
 		else:
 			self.deadTimer.start()
 			#Hides the HP bar
 			for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
 				item.visible = false
+				print("HP bar has been hidden")
 			deadMenu.open()
 			yield(self.deadTimer, "timeout")
 			deadMenu.close()
@@ -253,6 +298,8 @@ func _diedCheck():
 			#Shows the HP bar
 			for item in get_parent().get_node("Player/UI/hpCanvasLayer/hpContainer").get_children():
 				item.visible = true
+				print("HP bar is now visible again")
+			print("LEVEL RESET WITH 1 LIFE")
 			_resetLevel(self.lives)
 	
 #This method resets the level when a player has lost a life.
@@ -263,7 +310,7 @@ func _diedCheck():
 func _resetLevel(numLives: int) -> void:
 	self.lives = numLives
 	self.curLife = self.MAX_LIFE
-  self.orbs = 0
+	self.orbs = 0
 
 	_updateHpBar()
 	self.coins = 0
@@ -273,12 +320,14 @@ func _resetLevel(numLives: int) -> void:
 	
 	#Reset coins to show
 	var coinsForReset = get_parent().get_node("Coins").get_children()
+	print("Positions for all coins reset")
 	for coin in coinsForReset:
 		for c in coin.get_children():
 			c.visible = true
 			
 	#Reset orbs to show
 	var orbs = get_parent().get_node("Orbs").get_children()
+	print("Positions for all orbs reset")
 	for orb in orbs:
 		orb.visible = true
 
@@ -290,33 +339,40 @@ func _gameOver() -> void:
 	#set game over text
 	var randNum = randi() % self._gameOverMessages.size() + 1
 	self.gameOverLabel.text = self._gameOverMessages[randNum - 1]
+	print("Game over screen appears")
 	
 	self.gameOverScreen.visible = true
 	yield(self.deadTimer, "timeout")
 	self.gameOverScreen.visible = false
+	print("Game over screen disappears")
 	_resetLevel(1)
 
 
 func _createLabelForCounter(labelName: String, value: int) -> String:
 	return labelName + ": " + str(value)
+	print("Labels created (Player.gd)")
 
 #Updates the coin lable when the user either a) collects a coin or b) has lost
 # a life
 func _updateCoinLabel() -> void:
 	self.coinLabel.text =  _createLabelForCounter("Coins", self.coins)
+	print("Coin cointer updated")
 
 #Updates the Orb Label when the user either a) collects an orb or b) has lost
 # a life
 func _updateOrbLabel() -> void:
 	 self.orbLabel.text = _createLabelForCounter("Orbs", self.orbs)
+	 print("Orb counter updated")
 	
 #Updates the Lives Label when the player has with a) collected the allotted
 #amount of coins to gain a life or b) has lost a life
 func _updateLivesLabel() -> void:
 	self.livesLabel.text =  _createLabelForCounter("Lives", self.lives)
+	print("Lfe counter updated")
 	
 #updates the HP bar when the player takes damage or the level is reset due to 
 #loss of life
 func _updateHpBar() -> void:
 	$UI/hpCanvasLayer/hpContainer/hpLabel.text = "HP " + str(self.curLife) + "/" + str(self.MAX_LIFE)
 	$UI/hpCanvasLayer/hpContainer/hpBar.value = self.curLife
+	print("HP Bar updated")

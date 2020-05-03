@@ -6,8 +6,9 @@
 
 ## Description ##
 
-Class that contains information and behavior for Orbs. 
-It's a Collectible that disappears when the player touches it.
+NOTE: We created this class to contain information and behavior for Orbs. 
+It's a Collectible that disappears when the player touches it, and is meant
+to act as a key to go to the next level(in the future).
 
 ## Properties ##
 

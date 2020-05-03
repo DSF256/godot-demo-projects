@@ -6,7 +6,7 @@
 
 ## Description ##
 
-Class the contains behavior for the DiedMenu
+NOTE: We created this class to notify the player that they are dead(for now).
 The contents of the DiedMenu are defined within the Scene Editor.
 This class is strictly behavior.
 

@@ -16,6 +16,8 @@ signal orbCollected
 func _on_body_entered(_body):
 	if(self.visible):
 		animation_player.play("picked")
+		print("_on_body_entered function(Orb.gd)")
 		emit_signal("orbCollected")
 		
 	self.visible = false;
+	print("_on_body_entered function(Orb.gd) visible = false")

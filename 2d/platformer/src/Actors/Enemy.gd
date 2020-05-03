@@ -6,6 +6,15 @@ enum State {
 	DEAD
 }
 
+# vars that determine whether the player is walking or not; only called ONCE
+var w1 = true
+var w2 = true
+var w3 = true
+var w4 = true
+var w5 = true
+var w6 = true
+var w7 = true
+
 var _state = State.WALKING
 
 onready var platform_detector = $PlatformDetector
@@ -24,6 +33,9 @@ func _ready():
 		speed.x = randi()%5*50
 		yield(get_tree().create_timer(NUMBER), "timeout")
 		_velocity.y = (-250)
+		if(w1 == true):
+			print("_ready func (Enemy.gd) called for first time, won't display again")
+			w1 = false
 		
 
 # Physics process is a built-in loop in Godot.
@@ -53,6 +65,9 @@ func _physics_process(_delta):
 	var animation = get_new_animation()
 	if animation != animation_player.current_animation:
 		animation_player.play(animation)
+		if(w2 == true):
+			print("Sprite scaled (Enemy.gd) called for first time, won't display again")
+			w2 = false
 
 
 # This function calculates a new velocity whenever you need it.
@@ -62,11 +77,20 @@ func calculate_move_velocity(linear_velocity):
 
 	if not floor_detector_left.is_colliding():
 		velocity.x = speed.x
+		if(w3 == true):
+			print("Enemy moved left (Enemy.gd) called for first time, won't display again")
+			w3 = false
 	elif not floor_detector_right.is_colliding():
 		velocity.x = -speed.x
+		if(w4 == true):
+			print("Enemy moved right (Enemy.gd) called for first time, won't display again")
+			w4 = false
 
 	if is_on_wall():
 		velocity.x *= -1
+		if(w5 == true):
+			print("Enemy on wall (Enemy.gd) called for first time, won't display again")
+			w5 = false
 
 	return velocity
 
@@ -74,12 +98,19 @@ func calculate_move_velocity(linear_velocity):
 func destroy():
 	_state = State.DEAD
 	_velocity = Vector2.ZERO
+	print("Enemy destroyed")
 
 
 func get_new_animation():
 	var animation_new = ""
 	if _state == State.WALKING:
 		animation_new = "walk" if abs(_velocity.x) > 0 else "idle"
+		if(w6 == true):
+			print("Enemy walking (Enemy.gd) called for first time, won't display again")
+			w6 = false
 	else:
 		animation_new = "destroy"
+		if(w7 == true):
+			print("Enemy destroyed (Enemy.gd) called for first time, won't display again")
+			w7 = false
 	return animation_new

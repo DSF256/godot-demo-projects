@@ -2,6 +2,8 @@
 class_name Gun
 extends Position2D
 
+var s1 = true
+
 #Constants
 #Speed of the bullet
 const BULLET_VELOCITY = 1000.0
@@ -21,6 +23,11 @@ onready var timer: Timer = $Cooldown
 func shoot(direction: int = 1) -> bool:
 	if not timer.is_stopped():
 		return false
+
+		if(s1 == true):
+			print("Shooting timer (Gun.gd) called for first time, won't display again")
+			s1 = false
+      
 	var bullet: Bullet = Bullet.instance()
 	bullet.global_position = global_position
 	bullet.linear_velocity = Vector2(direction * BULLET_VELOCITY, 0)
@@ -28,4 +35,5 @@ func shoot(direction: int = 1) -> bool:
 	bullet.set_as_toplevel(true)
 	add_child(bullet)
 	sound_shoot.play()
+	print("Bullet fired (Gun.gd)")
 	return true

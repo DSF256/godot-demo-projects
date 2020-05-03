@@ -1,0 +1,23 @@
+This file contains information on the code coverage tools utilized in creating the 2D platformer in Godot.
+
+Godot technically has two built-in code coverage tools for users to utilize, but they are both incomplete in different ways.
+	1. Profiler - which can be used to check with classes are executing
+	2. Monitors - which can be used to check the number of objects in a scene
+	
+Both of these are good for their respective uses, but they are not as good as a complete code coverage tool.
+Both of these tools only show classes and objects being called, not specific functions.
+Of course, that does not mean these tools cannot be used at all.
+These tools were used in conjunction with the method below to determine our project's code coverage.
+
+To work around this, we devised a simple (if crude) work-around.
+Whenwver a function is called in this project, it will have a statement printed out to the console.
+This is to notify the user that the function has executed.
+Some examples of this can be seen in the sample files provided.
+
+Since this method calls literally every function in the project, it can be a good way to determine code coverage.
+If something in the project changed, that means that a function had to be called to allow this change.
+Therefore, it stands to reason that if something in the game changed, then a function should have been called to allow that change.
+In short, if something changes, and there is not a call that corresponds to that change (or vice versa), there is a problem.
+
+This code coverage "tool" is indeed very messy.
+However, it is a decent way to determine what code is and is not running, even if it requires some extra work.

@@ -1,0 +1,49 @@
+***  CODE COVERAGE  ***
+***  SAMPLE OUTPUT  ***
+***    PRINTOUTS    ***
+
+_ready function(PauseMenu.gd)
+get_direction (Player.gd) printed once, will not show again
+caluclate_move_velocity printed once, will not show again
+Player is falling; will not show again
+Physics process (Player.gd) called for first time, won't display again
+Gravity physics process (Actor.gd) called for first time, won't display again
+Enemy walking (Enemy.gd) called for first time, won't display again
+Sprite scaled (Enemy.gd) called for first time, won't display again
+Gravity physics process (Actor.gd) called for first time, won't display again
+Enemy walking (Enemy.gd) called for first time, won't display again
+Sprite scaled (Enemy.gd) called for first time, won't display again
+Gravity physics process (Actor.gd) called for first time, won't display again
+Enemy walking (Enemy.gd) called for first time, won't display again
+Sprite scaled (Enemy.gd) called for first time, won't display again
+Gravity physics process (Actor.gd) called for first time, won't display again
+Enemy walking (Enemy.gd) called for first time, won't display again
+Sprite scaled (Enemy.gd) called for first time, won't display again
+Gravity physics process (Actor.gd) called for first time, won't display again
+Player is idle; will not show again
+Enemy moved right (Enemy.gd) called for first time, won't display again
+Enemy on wall (Enemy.gd) called for first time, won't display again
+Enemy on wall (Enemy.gd) called for first time, won't display again
+Enemy moved left (Enemy.gd) called for first time, won't display again
+Enemy moved left (Enemy.gd) called for first time, won't display again
+Player sprite moved (Player.gd) called for first time, won't display again
+_ready func (Enemy.gd) called for first time, won't display again
+Enemy moved right (Enemy.gd) called for first time, won't display again
+Enemy moved left (Enemy.gd) called for first time, won't display again
+Player Velocity calculated
+Player's velocity interrupted
+_ready func (Enemy.gd) called for first time, won't display again
+_ready func (Enemy.gd) called for first time, won't display again
+_ready func (Enemy.gd) called for first time, won't display again
+Enemy on wall (Enemy.gd) called for first time, won't display again
+Enemy moved left (Enemy.gd) called for first time, won't display again
+Enemy moved right (Enemy.gd) called for first time, won't display again
+Bullet fired (Gun.gd)
+Player shooting (Player.gd) called for first time, won't display again
+Player is shooting
+_on_body_entered function(Bullet.gd)
+Enemy destroyed
+Enemy destroyed (Enemy.gd) called for first time, won't display again
+on_timeout_complete (Player.gd) - Player may shoot again.
+_on_body_entered function(Bullet.gd)
+destroy function(Bullet.gd)

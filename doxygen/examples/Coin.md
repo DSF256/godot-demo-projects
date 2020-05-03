@@ -19,7 +19,7 @@ AnimationPlayer | animation_player
 
 Type | Name
  --- | --- 
-void | func _on_body_entered(_body) -> void
+var | func _on_body_entered(_body)
 
 ## Signals ##
 
@@ -40,7 +40,7 @@ Animation that makes a sounds when the coin is collected.
 ### \_on\_body\_entered ###
 
 ```gdscript
-func _on_body_entered(_body) -> void
+func _on_body_entered(_body)
 ```
 
 When the player collides with a coin, the coin plays its 'picked' animation.
